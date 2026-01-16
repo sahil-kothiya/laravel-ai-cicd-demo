@@ -15,6 +15,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         \App\Console\Commands\AnalyzeTestsCommand::class,
         \App\Console\Commands\PredictFailureCommand::class,
+        \App\Console\Commands\RecordOutcomeCommand::class,
+        \App\Console\Commands\RetrainModelCommand::class,
     ];
 
     /**

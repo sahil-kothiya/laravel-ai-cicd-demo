@@ -127,7 +127,7 @@ jobs:
           echo "::notice::Selected $COUNT tests ($REDUCTION% reduction)"
       
       - name: Upload test selection report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-selection-report
           path: storage/ai/test-selection.json
@@ -227,7 +227,7 @@ jobs:
           fi
       
       - name: Upload Coverage Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: matrix.chunk == 1
         with:
           name: coverage-report
@@ -308,7 +308,7 @@ jobs:
           echo "Estimated Time Saved: ~$(echo "scale=1; 15 * ${{ needs.select-tests.outputs.reduction }} / 100" | bc) minutes" >> performance.md
       
       - name: Upload performance report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: performance-report
           path: performance.md
@@ -339,7 +339,7 @@ jobs:
           php artisan ai:record-outcome \
             --prediction="${{ needs.predict-failure.outputs.prediction }}" \
             --actual="$OUTCOME" \
-            --confidence="${{ needs.predict-failure.outputs.confidence }}"
+            --confidence="${{ needs.predict-failure.outputs.confidence }}" || echo "Command not yet available"
       
       - name: Update model if needed
         run: |
