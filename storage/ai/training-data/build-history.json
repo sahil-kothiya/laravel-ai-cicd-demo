@@ -1,0 +1,127 @@
+{
+    "builds": [
+        {
+            "build_id": "build_001",
+            "timestamp": "2026-01-08T10:30:00Z",
+            "outcome": "PASS",
+            "duration_seconds": 245,
+            "features": {
+                "files_changed": 3,
+                "lines_added": 45,
+                "lines_removed": 12,
+                "avg_complexity": 12.5,
+                "critical_files_touched": 0,
+                "author_fail_rate": 0.05,
+                "author_experience": 180,
+                "hour_of_day": 10,
+                "day_of_week": 3,
+                "is_friday_evening": false,
+                "test_files_changed": 2,
+                "config_files_changed": 0,
+                "migration_files_changed": 0,
+                "recent_failures": 0,
+                "consecutive_failures": 0
+            }
+        },
+        {
+            "build_id": "build_002",
+            "timestamp": "2026-01-08T14:15:00Z",
+            "outcome": "FAIL",
+            "duration_seconds": 892,
+            "features": {
+                "files_changed": 18,
+                "lines_added": 423,
+                "lines_removed": 156,
+                "avg_complexity": 34.2,
+                "critical_files_touched": 2,
+                "author_fail_rate": 0.18,
+                "author_experience": 45,
+                "hour_of_day": 14,
+                "day_of_week": 3,
+                "is_friday_evening": false,
+                "test_files_changed": 0,
+                "config_files_changed": 1,
+                "migration_files_changed": 2,
+                "recent_failures": 1,
+                "consecutive_failures": 0
+            }
+        },
+        {
+            "build_id": "build_003",
+            "timestamp": "2026-01-08T16:45:00Z",
+            "outcome": "PASS",
+            "duration_seconds": 312,
+            "features": {
+                "files_changed": 7,
+                "lines_added": 98,
+                "lines_removed": 34,
+                "avg_complexity": 18.7,
+                "critical_files_touched": 0,
+                "author_fail_rate": 0.08,
+                "author_experience": 120,
+                "hour_of_day": 16,
+                "day_of_week": 3,
+                "is_friday_evening": false,
+                "test_files_changed": 3,
+                "config_files_changed": 0,
+                "migration_files_changed": 0,
+                "recent_failures": 1,
+                "consecutive_failures": 0
+            }
+        },
+        {
+            "build_id": "build_004",
+            "timestamp": "2026-01-09T18:30:00Z",
+            "outcome": "FAIL",
+            "duration_seconds": 1156,
+            "features": {
+                "files_changed": 25,
+                "lines_added": 678,
+                "lines_removed": 234,
+                "avg_complexity": 42.1,
+                "critical_files_touched": 3,
+                "author_fail_rate": 0.22,
+                "author_experience": 30,
+                "hour_of_day": 18,
+                "day_of_week": 5,
+                "is_friday_evening": true,
+                "test_files_changed": 1,
+                "config_files_changed": 2,
+                "migration_files_changed": 1,
+                "recent_failures": 2,
+                "consecutive_failures": 0
+            }
+        },
+        {
+            "build_id": "build_005",
+            "timestamp": "2026-01-09T20:15:00Z",
+            "outcome": "FAIL",
+            "duration_seconds": 945,
+            "features": {
+                "files_changed": 12,
+                "lines_added": 289,
+                "lines_removed": 78,
+                "avg_complexity": 28.9,
+                "critical_files_touched": 1,
+                "author_fail_rate": 0.22,
+                "author_experience": 30,
+                "hour_of_day": 20,
+                "day_of_week": 5,
+                "is_friday_evening": true,
+                "test_files_changed": 0,
+                "config_files_changed": 0,
+                "migration_files_changed": 0,
+                "recent_failures": 3,
+                "consecutive_failures": 2
+            }
+        }
+    ],
+    "metadata": {
+        "total_builds": 5,
+        "pass_rate": 0.40,
+        "fail_rate": 0.60,
+        "avg_duration": 710,
+        "last_updated": "2026-01-09T20:15:00Z",
+        "model_version": "1.0.0"
+    }
+}

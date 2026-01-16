@@ -1,0 +1,39 @@
+{
+    "timestamp": "2026-01-16T08:40:30+00:00",
+    "tests": [
+        "Tests\\Feature\\Auth\\LoginTest",
+        "Tests\\Feature\\Auth\\RegisterTest",
+        "Tests\\Feature\\Payment\\PaymentProcessingTest",
+        "Tests\\Integration\\DatabaseIntegrityTest"
+    ],
+    "metadata": [
+        {
+            "test": "Tests\\Feature\\Auth\\LoginTest",
+            "reason": "critical",
+            "confidence": 1,
+            "impact_score": 1,
+            "file": "N\/A"
+        },
+        {
+            "test": "Tests\\Feature\\Auth\\RegisterTest",
+            "reason": "critical",
+            "confidence": 1,
+            "impact_score": 1,
+            "file": "N\/A"
+        },
+        {
+            "test": "Tests\\Feature\\Payment\\PaymentProcessingTest",
+            "reason": "critical",
+            "confidence": 1,
+            "impact_score": 1,
+            "file": "N\/A"
+        },
+        {
+            "test": "Tests\\Integration\\DatabaseIntegrityTest",
+            "reason": "critical",
+            "confidence": 1,
+            "impact_score": 1,
+            "file": "N\/A"
+        }
+    ]
+}

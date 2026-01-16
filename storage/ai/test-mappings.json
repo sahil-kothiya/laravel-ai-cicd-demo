@@ -1,0 +1,36 @@
+{
+    "app/Http/Controllers/UserController.php": {
+        "Tests\\Feature\\UserControllerTest": 0.95,
+        "Tests\\Feature\\UserApiTest": 0.80,
+        "Tests\\Feature\\Admin\\UserManagementTest": 0.65
+    },
+    "app/Models/User.php": {
+        "Tests\\Unit\\UserTest": 0.95,
+        "Tests\\Feature\\UserControllerTest": 0.70,
+        "Tests\\Feature\\Auth\\RegisterTest": 0.85,
+        "Tests\\Feature\\Auth\\LoginTest": 0.75
+    },
+    "app/Http/Controllers/PostController.php": {
+        "Tests\\Feature\\PostControllerTest": 0.95,
+        "Tests\\Feature\\PostApiTest": 0.85
+    },
+    "app/Models/Post.php": {
+        "Tests\\Unit\\PostTest": 0.95,
+        "Tests\\Feature\\PostControllerTest": 0.70
+    },
+    "app/Http/Middleware/Authenticate.php": {
+        "Tests\\Feature\\Auth\\LoginTest": 0.90,
+        "Tests\\Feature\\Auth\\RegisterTest": 0.85,
+        "Tests\\Feature\\Auth\\PasswordResetTest": 0.80,
+        "Tests\\Integration\\AuthenticationTest": 0.95
+    },
+    "app/Services/PaymentService.php": {
+        "Tests\\Feature\\Payment\\PaymentProcessingTest": 0.95,
+        "Tests\\Feature\\Payment\\RefundTest": 0.90,
+        "Tests\\Integration\\PaymentGatewayTest": 0.85
+    },
+    "database/migrations/2024_01_01_000000_create_users_table.php": {
+        "Tests\\Integration\\DatabaseIntegrityTest": 0.95,
+        "Tests\\Feature\\Auth\\RegisterTest": 0.70
+    }
+}
