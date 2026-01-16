@@ -218,10 +218,10 @@ jobs:
           
           if [ -z "$TESTS" ]; then
             echo "Running all tests (fallback)"
-            php artisan test --parallel
+            php artisan test
           else
             echo "Running selected tests"
-            php artisan test --filter="$TESTS" --parallel --coverage
+            php artisan test --filter="$TESTS"
           fi
       
       - name: Upload Coverage Report
