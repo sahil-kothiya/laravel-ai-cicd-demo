@@ -25,7 +25,7 @@ class UserController extends Controller
             $search = $request->input('search');
             $status = $request->input('status');
 
-            // Validate pagination
+            // Validate pagination limit
             if ($perPage > 100) {
                 return response()->json([
                     'error' => 'Maximum per_page value is 100',
