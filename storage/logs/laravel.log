@@ -1362,3 +1362,164 @@
 #33 D:/wamp64/www/SeesionDemo/artisan(24): Illuminate/Foundation/Console/Kernel->handle(Object(Symfony/Component/Console/Input/ArgvInput), Object(Symfony/Component/Console/Output/ConsoleOutput))
 #34 {main}
 "} 
+[2026-01-16 11:43:22] local.ERROR: Unclosed '{' on line 11 {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Unclosed '{' on line 11 at D:/wamp64/www/SeesionDemo/app/Models/User.php:56)
+[stacktrace]
+#0 D:/wamp64/www/SeesionDemo/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(244): Symfony/Component/ErrorHandler/Error/FatalError->__construct(message: ''Unclosed //'{//'...', code: '0', error: '['type' => 4, '...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 D:/wamp64/www/SeesionDemo/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(231): Illuminate/Foundation/Bootstrap/HandleExceptions->fatalErrorFromPhpError(error: '['type' => 4, '...', traceOffset: '0')
+#2 D:/wamp64/www/SeesionDemo/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(255): Illuminate/Foundation/Bootstrap/HandleExceptions->handleShutdown()
+#3 D:/wamp64/www/SeesionDemo/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(0): Illuminate/Foundation/Bootstrap/HandleExceptions->Illuminate/Foundation/Bootstrap/{closure:D:/wamp64/www/SeesionDemo/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php:254-256}()
+#4 {main}
+"} 
+[2026-01-16 11:43:55] local.ERROR: Unclosed '{' on line 11 {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Unclosed '{' on line 11 at D:/wamp64/www/SeesionDemo/app/Models/User.php:56)
+[stacktrace]
+#0 D:/wamp64/www/SeesionDemo/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(244): Symfony/Component/ErrorHandler/Error/FatalError->__construct(message: ''Unclosed //'{//'...', code: '0', error: '['type' => 4, '...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 D:/wamp64/www/SeesionDemo/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(231): Illuminate/Foundation/Bootstrap/HandleExceptions->fatalErrorFromPhpError(error: '['type' => 4, '...', traceOffset: '0')
+#2 D:/wamp64/www/SeesionDemo/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(255): Illuminate/Foundation/Bootstrap/HandleExceptions->handleShutdown()
+#3 D:/wamp64/www/SeesionDemo/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(0): Illuminate/Foundation/Bootstrap/HandleExceptions->Illuminate/Foundation/Bootstrap/{closure:D:/wamp64/www/SeesionDemo/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php:254-256}()
+#4 {main}
+"} 
+[2026-01-16 11:44:45] local.ERROR: Unclosed '{' on line 11 {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Unclosed '{' on line 11 at D:/wamp64/www/SeesionDemo/app/Models/User.php:56)
+[stacktrace]
+#0 D:/wamp64/www/SeesionDemo/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(244): Symfony/Component/ErrorHandler/Error/FatalError->__construct(message: ''Unclosed //'{//'...', code: '0', error: '['type' => 4, '...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 D:/wamp64/www/SeesionDemo/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(231): Illuminate/Foundation/Bootstrap/HandleExceptions->fatalErrorFromPhpError(error: '['type' => 4, '...', traceOffset: '0')
+#2 D:/wamp64/www/SeesionDemo/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(255): Illuminate/Foundation/Bootstrap/HandleExceptions->handleShutdown()
+#3 D:/wamp64/www/SeesionDemo/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(0): Illuminate/Foundation/Bootstrap/HandleExceptions->Illuminate/Foundation/Bootstrap/{closure:D:/wamp64/www/SeesionDemo/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php:254-256}()
+#4 {main}
+"} 
+[2026-01-16 11:44:54] local.ERROR: Unclosed '{' on line 11 {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Unclosed '{' on line 11 at D:/wamp64/www/SeesionDemo/app/Models/User.php:56)
+[stacktrace]
+#0 D:/wamp64/www/SeesionDemo/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(244): Symfony/Component/ErrorHandler/Error/FatalError->__construct(message: ''Unclosed //'{//'...', code: '0', error: '['type' => 4, '...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 D:/wamp64/www/SeesionDemo/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(231): Illuminate/Foundation/Bootstrap/HandleExceptions->fatalErrorFromPhpError(error: '['type' => 4, '...', traceOffset: '0')
+#2 D:/wamp64/www/SeesionDemo/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(255): Illuminate/Foundation/Bootstrap/HandleExceptions->handleShutdown()
+#3 D:/wamp64/www/SeesionDemo/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(0): Illuminate/Foundation/Bootstrap/HandleExceptions->Illuminate/Foundation/Bootstrap/{closure:D:/wamp64/www/SeesionDemo/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php:254-256}()
+#4 {main}
+"} 
+[2026-01-16 11:45:54] local.ERROR: Unclosed '{' on line 11 {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Unclosed '{' on line 11 at D:/wamp64/www/SeesionDemo/app/Models/User.php:56)
+[stacktrace]
+#0 D:/wamp64/www/SeesionDemo/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(244): Symfony/Component/ErrorHandler/Error/FatalError->__construct(message: ''Unclosed //'{//'...', code: '0', error: '['type' => 4, '...', traceOffset: '0', traceArgs: '???', trace: '???')
+#1 D:/wamp64/www/SeesionDemo/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(231): Illuminate/Foundation/Bootstrap/HandleExceptions->fatalErrorFromPhpError(error: '['type' => 4, '...', traceOffset: '0')
+#2 D:/wamp64/www/SeesionDemo/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(255): Illuminate/Foundation/Bootstrap/HandleExceptions->handleShutdown()
+#3 D:/wamp64/www/SeesionDemo/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php(0): Illuminate/Foundation/Bootstrap/HandleExceptions->Illuminate/Foundation/Bootstrap/{closure:D:/wamp64/www/SeesionDemo/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/HandleExceptions.php:254-256}()
+#4 {main}
+"} 
+[2026-01-16 11:49:47] testing.INFO: Order created successfully {"order_id":1} 
+[2026-01-16 11:49:47] testing.ERROR: Error creating order: The selected user id is invalid.  
+[2026-01-16 11:49:47] testing.ERROR: Error creating order: The selected product id is invalid.  
+[2026-01-16 11:49:47] testing.ERROR: Error creating order: The quantity field is required.  
+[2026-01-16 11:49:48] testing.INFO: Order updated successfully {"order_id":1} 
+[2026-01-16 11:49:49] testing.INFO: Order updated successfully {"order_id":1} 
+[2026-01-16 11:49:49] testing.INFO: Order updated successfully {"order_id":1} 
+[2026-01-16 11:49:49] testing.INFO: Order deleted successfully {"order_id":"1"} 
+[2026-01-16 11:49:49] testing.INFO: Order created successfully {"order_id":1} 
+[2026-01-16 11:49:49] testing.INFO: Order created successfully {"order_id":2} 
+[2026-01-16 11:49:49] testing.INFO: Order created successfully {"order_id":3} 
+[2026-01-16 11:49:49] testing.INFO: Order created successfully {"order_id":4} 
+[2026-01-16 11:49:49] testing.INFO: Order created successfully {"order_id":5} 
+[2026-01-16 11:51:06] testing.INFO: Order created successfully {"order_id":1} 
+[2026-01-16 11:51:06] testing.INFO: Order created successfully {"order_id":2} 
+[2026-01-16 11:51:06] testing.INFO: Order created successfully {"order_id":3} 
+[2026-01-16 11:51:06] testing.INFO: Order created successfully {"order_id":4} 
+[2026-01-16 11:51:06] testing.INFO: Order created successfully {"order_id":5} 
+[2026-01-16 11:51:06] testing.INFO: Order created successfully {"order_id":6} 
+[2026-01-16 11:51:06] testing.INFO: Order created successfully {"order_id":7} 
+[2026-01-16 11:51:06] testing.INFO: Order created successfully {"order_id":8} 
+[2026-01-16 11:51:06] testing.INFO: Order created successfully {"order_id":9} 
+[2026-01-16 11:51:06] testing.INFO: Order created successfully {"order_id":10} 
+[2026-01-16 11:51:18] testing.INFO: Product created successfully {"product_id":1} 
+[2026-01-16 11:51:18] testing.ERROR: Error creating product: The name field is required.  
+[2026-01-16 11:51:18] testing.ERROR: Error creating product: The sku field format is invalid.  
+[2026-01-16 11:51:18] testing.ERROR: Error creating product: The sku has already been taken.  
+[2026-01-16 11:51:18] testing.ERROR: Error creating product: The price field must be at least 0.01.  
+[2026-01-16 11:51:18] testing.ERROR: Error creating product: The stock field must be at least 0.  
+[2026-01-16 11:51:20] testing.INFO: Product updated successfully {"product_id":1} 
+[2026-01-16 11:51:20] testing.ERROR: Error updating product: The sku has already been taken.  
+[2026-01-16 11:51:20] testing.INFO: Product deleted successfully {"product_id":"1"} 
+[2026-01-16 11:51:34] testing.INFO: User updated successfully {"user_id":1} 
+[2026-01-16 11:51:35] testing.INFO: User deleted successfully {"user_id":"1"} 
+[2026-01-16 11:51:42] testing.ERROR: Error in bulk user creation: The users field is required.  
+[2026-01-16 11:51:43] testing.ERROR: Error in bulk user creation: The users field must not have more than 100 items.  
+[2026-01-16 11:53:07] testing.INFO: Order created successfully {"order_id":1} 
+[2026-01-16 11:53:07] testing.ERROR: Error creating order: The selected user id is invalid.  
+[2026-01-16 11:54:54] testing.INFO: Order created successfully {"order_id":1} 
+[2026-01-16 11:54:54] testing.INFO: Order updated successfully {"order_id":1} 
+[2026-01-16 11:54:56] testing.INFO: Order updated successfully {"order_id":1} 
+[2026-01-16 11:54:56] testing.INFO: Order updated successfully {"order_id":1} 
+[2026-01-16 11:54:56] testing.INFO: Order deleted successfully {"order_id":"1"} 
+[2026-01-16 11:54:56] testing.INFO: Order created successfully {"order_id":1} 
+[2026-01-16 11:54:56] testing.INFO: Order created successfully {"order_id":2} 
+[2026-01-16 11:54:56] testing.INFO: Order created successfully {"order_id":3} 
+[2026-01-16 11:54:56] testing.INFO: Order created successfully {"order_id":4} 
+[2026-01-16 11:54:56] testing.INFO: Order created successfully {"order_id":5} 
+[2026-01-16 11:56:12] testing.INFO: Order created successfully {"order_id":1} 
+[2026-01-16 11:56:12] testing.INFO: Order created successfully {"order_id":2} 
+[2026-01-16 11:56:12] testing.INFO: Order created successfully {"order_id":3} 
+[2026-01-16 11:56:12] testing.INFO: Order created successfully {"order_id":4} 
+[2026-01-16 11:56:12] testing.INFO: Order created successfully {"order_id":5} 
+[2026-01-16 11:56:12] testing.INFO: Order created successfully {"order_id":6} 
+[2026-01-16 11:56:12] testing.INFO: Order created successfully {"order_id":7} 
+[2026-01-16 11:56:12] testing.INFO: Order created successfully {"order_id":8} 
+[2026-01-16 11:56:13] testing.INFO: Order created successfully {"order_id":9} 
+[2026-01-16 11:56:13] testing.INFO: Order created successfully {"order_id":10} 
+[2026-01-16 11:56:24] testing.INFO: Product created successfully {"product_id":1} 
+[2026-01-16 11:56:25] testing.INFO: Product updated successfully {"product_id":1} 
+[2026-01-16 11:56:26] testing.INFO: Product deleted successfully {"product_id":"1"} 
+[2026-01-16 11:56:36] testing.INFO: User created successfully {"user_id":1} 
+[2026-01-16 11:56:37] testing.INFO: User updated successfully {"user_id":1} 
+[2026-01-16 11:56:37] testing.INFO: User updated successfully {"user_id":1} 
+[2026-01-16 11:56:38] testing.INFO: User deleted successfully {"user_id":"1"} 
+[2026-01-16 11:56:45] testing.ERROR: Error in bulk user creation: The users field is required.  
+[2026-01-16 11:56:46] testing.ERROR: Error in bulk user creation: The users field must not have more than 100 items.  
+[2026-01-16 11:57:27] testing.INFO: Order created successfully {"order_id":1} 
+[2026-01-16 11:57:28] testing.INFO: Order updated successfully {"order_id":1} 
+[2026-01-16 11:57:29] testing.INFO: Order updated successfully {"order_id":1} 
+[2026-01-16 11:57:29] testing.INFO: Order updated successfully {"order_id":1} 
+[2026-01-16 11:57:29] testing.INFO: Order deleted successfully {"order_id":"1"} 
+[2026-01-16 11:57:30] testing.INFO: Order created successfully {"order_id":1} 
+[2026-01-16 11:57:30] testing.INFO: Order created successfully {"order_id":2} 
+[2026-01-16 11:57:30] testing.INFO: Order created successfully {"order_id":3} 
+[2026-01-16 11:57:30] testing.INFO: Order created successfully {"order_id":4} 
+[2026-01-16 11:57:30] testing.INFO: Order created successfully {"order_id":5} 
+[2026-01-16 11:58:46] testing.INFO: Order created successfully {"order_id":1} 
+[2026-01-16 11:58:46] testing.INFO: Order created successfully {"order_id":2} 
+[2026-01-16 11:58:46] testing.INFO: Order created successfully {"order_id":3} 
+[2026-01-16 11:58:46] testing.INFO: Order created successfully {"order_id":4} 
+[2026-01-16 11:58:46] testing.INFO: Order created successfully {"order_id":5} 
+[2026-01-16 11:58:46] testing.INFO: Order created successfully {"order_id":6} 
+[2026-01-16 11:58:46] testing.INFO: Order created successfully {"order_id":7} 
+[2026-01-16 11:58:46] testing.INFO: Order created successfully {"order_id":8} 
+[2026-01-16 11:58:46] testing.INFO: Order created successfully {"order_id":9} 
+[2026-01-16 11:58:46] testing.INFO: Order created successfully {"order_id":10} 
+[2026-01-16 11:58:57] testing.INFO: Product created successfully {"product_id":1} 
+[2026-01-16 11:58:59] testing.INFO: Product updated successfully {"product_id":1} 
+[2026-01-16 11:58:59] testing.INFO: Product deleted successfully {"product_id":"1"} 
+[2026-01-16 11:59:10] testing.INFO: User created successfully {"user_id":1} 
+[2026-01-16 11:59:10] testing.INFO: User updated successfully {"user_id":1} 
+[2026-01-16 11:59:11] testing.INFO: User updated successfully {"user_id":1} 
+[2026-01-16 11:59:11] testing.INFO: User deleted successfully {"user_id":"1"} 
+[2026-01-16 12:01:04] testing.INFO: Order created successfully {"order_id":1} 
+[2026-01-16 12:01:04] testing.INFO: Order updated successfully {"order_id":1} 
+[2026-01-16 12:01:06] testing.INFO: Order updated successfully {"order_id":1} 
+[2026-01-16 12:01:06] testing.INFO: Order updated successfully {"order_id":1} 
+[2026-01-16 12:01:06] testing.INFO: Order deleted successfully {"order_id":"1"} 
+[2026-01-16 12:01:06] testing.INFO: Order created successfully {"order_id":1} 
+[2026-01-16 12:01:06] testing.INFO: Order created successfully {"order_id":2} 
+[2026-01-16 12:01:06] testing.INFO: Order created successfully {"order_id":3} 
+[2026-01-16 12:01:06] testing.INFO: Order created successfully {"order_id":4} 
+[2026-01-16 12:01:06] testing.INFO: Order created successfully {"order_id":5} 
+[2026-01-16 12:02:23] testing.INFO: Order created successfully {"order_id":1} 
+[2026-01-16 12:02:23] testing.INFO: Order created successfully {"order_id":2} 
+[2026-01-16 12:02:23] testing.INFO: Order created successfully {"order_id":3} 
+[2026-01-16 12:02:23] testing.INFO: Order created successfully {"order_id":4} 
+[2026-01-16 12:02:23] testing.INFO: Order created successfully {"order_id":5} 
+[2026-01-16 12:02:23] testing.INFO: Order created successfully {"order_id":6} 
+[2026-01-16 12:02:23] testing.INFO: Order created successfully {"order_id":7} 
+[2026-01-16 12:02:23] testing.INFO: Order created successfully {"order_id":8} 
+[2026-01-16 12:02:23] testing.INFO: Order created successfully {"order_id":9} 
+[2026-01-16 12:02:23] testing.INFO: Order created successfully {"order_id":10} 
+[2026-01-16 12:02:34] testing.INFO: Product created successfully {"product_id":1} 
+[2026-01-16 12:02:36] testing.INFO: Product updated successfully {"product_id":1} 
+[2026-01-16 12:02:36] testing.INFO: Product deleted successfully {"product_id":"1"} 
+[2026-01-16 12:02:46] testing.INFO: User created successfully {"user_id":1} 
+[2026-01-16 12:02:47] testing.INFO: User updated successfully {"user_id":1} 
+[2026-01-16 12:02:48] testing.INFO: User updated successfully {"user_id":1} 
+[2026-01-16 12:02:48] testing.INFO: User deleted successfully {"user_id":"1"} 
