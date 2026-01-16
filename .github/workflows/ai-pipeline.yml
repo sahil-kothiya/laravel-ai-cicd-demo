@@ -201,9 +201,17 @@ jobs:
           php artisan cache:clear
       
       - name: Run Database Migrations
+        env:
+          DB_DATABASE: testing
+          DB_USERNAME: root
+          DB_PASSWORD: password
         run: php artisan migrate --force
       
       - name: Run Selected Tests (Chunk ${{ matrix.chunk }})
+        env:
+          DB_DATABASE: testing
+          DB_USERNAME: root
+          DB_PASSWORD: password
         run: |
           # Get selected tests from previous job
           TESTS="${{ needs.select-tests.outputs.tests }}"
