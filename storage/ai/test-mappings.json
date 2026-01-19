@@ -1,36 +1,61 @@
 {
     "app/Http/Controllers/UserController.php": {
-        "Tests\\Feature\\UserControllerTest": 0.95,
-        "Tests\\Feature\\UserApiTest": 0.80,
-        "Tests\\Feature\\Admin\\UserManagementTest": 0.65
+        "Tests\\Feature\\UserControllerTest": 0.95
+    },
+    "app/Http/Requests/StoreUserRequest.php": {
+        "Tests\\Feature\\UserControllerTest": 0.90
+    },
+    "app/Http/Requests/UpdateUserRequest.php": {
+        "Tests\\Feature\\UserControllerTest": 0.90
     },
     "app/Models/User.php": {
-        "Tests\\Unit\\UserTest": 0.95,
-        "Tests\\Feature\\UserControllerTest": 0.70,
-        "Tests\\Feature\\Auth\\RegisterTest": 0.85,
-        "Tests\\Feature\\Auth\\LoginTest": 0.75
+        "Tests\\Feature\\UserControllerTest": 0.85,
+        "Tests\\Feature\\OrderControllerTest": 0.70,
+        "Tests\\Unit\\UserTest": 0.95
     },
-    "app/Http/Controllers/PostController.php": {
-        "Tests\\Feature\\PostControllerTest": 0.95,
-        "Tests\\Feature\\PostApiTest": 0.85
+    "app/Http/Controllers/ProductController.php": {
+        "Tests\\Feature\\ProductControllerTest": 0.95
     },
-    "app/Models/Post.php": {
-        "Tests\\Unit\\PostTest": 0.95,
-        "Tests\\Feature\\PostControllerTest": 0.70
+    "app/Http/Requests/StoreProductRequest.php": {
+        "Tests\\Feature\\ProductControllerTest": 0.90
     },
-    "app/Http/Middleware/Authenticate.php": {
-        "Tests\\Feature\\Auth\\LoginTest": 0.90,
-        "Tests\\Feature\\Auth\\RegisterTest": 0.85,
-        "Tests\\Feature\\Auth\\PasswordResetTest": 0.80,
-        "Tests\\Integration\\AuthenticationTest": 0.95
+    "app/Http/Requests/UpdateProductRequest.php": {
+        "Tests\\Feature\\ProductControllerTest": 0.90
     },
-    "app/Services/PaymentService.php": {
-        "Tests\\Feature\\Payment\\PaymentProcessingTest": 0.95,
-        "Tests\\Feature\\Payment\\RefundTest": 0.90,
-        "Tests\\Integration\\PaymentGatewayTest": 0.85
+    "app/Models/Product.php": {
+        "Tests\\Feature\\ProductControllerTest": 0.85,
+        "Tests\\Feature\\OrderControllerTest": 0.75
     },
-    "database/migrations/2024_01_01_000000_create_users_table.php": {
-        "Tests\\Integration\\DatabaseIntegrityTest": 0.95,
-        "Tests\\Feature\\Auth\\RegisterTest": 0.70
+    "app/Http/Controllers/OrderController.php": {
+        "Tests\\Feature\\OrderControllerTest": 0.95
+    },
+    "app/Http/Requests/StoreOrderRequest.php": {
+        "Tests\\Feature\\OrderControllerTest": 0.90
+    },
+    "app/Http/Requests/CancelOrderRequest.php": {
+        "Tests\\Feature\\OrderControllerTest": 0.90
+    },
+    "app/Models/Order.php": {
+        "Tests\\Feature\\OrderControllerTest": 0.95
+    },
+    "database/migrations/2014_10_12_000000_create_users_table.php": {
+        "Tests\\Feature\\UserControllerTest": 0.85,
+        "Tests\\Feature\\OrderControllerTest": 0.70
+    },
+    "database/migrations/2024_01_10_000001_create_products_table.php": {
+        "Tests\\Feature\\ProductControllerTest": 0.85,
+        "Tests\\Feature\\OrderControllerTest": 0.70
+    },
+    "database/migrations/2024_01_10_000002_create_orders_table.php": {
+        "Tests\\Feature\\OrderControllerTest": 0.85
+    },
+    "config/cache.php": {
+        "Tests\\Feature\\UserControllerTest": 0.60,
+        "Tests\\Feature\\ProductControllerTest": 0.60
+    },
+    "routes/web.php": {
+        "Tests\\Feature\\UserControllerTest": 0.75,
+        "Tests\\Feature\\ProductControllerTest": 0.75,
+        "Tests\\Feature\\OrderControllerTest": 0.75
     }
 }

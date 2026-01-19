@@ -2,237 +2,142 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use Illuminate\Http\JsonResponse;
+use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
+use App\Services\ProductService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Validation\Rule;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class ProductController extends Controller
 {
+    protected ProductService $productService;
+
+    public function __construct(ProductService $productService)
+    {
+        $this->productService = $productService;
+    }
+
     /**
-     * Display a listing of the resource with filters and pagination.
+     * Display a listing of the products.
      */
-    public function index(Request $request): JsonResponse
+    public function index(Request $request): View
+    {
+        $filters = [
+            'search' => $request->get('search'),
+            'category' => $request->get('category'),
+            'status' => $request->get('status'),
+        ];
+
+        $products = $this->productService->getAllProducts($filters, $request->get('per_page', 15));
+        $categories = $this->productService->getAllCategories();
+
+        return view('products.index', compact('products', 'categories'));
+    }
+
+    /**
+     * Show the form for creating a new product.
+     */
+    public function create(): View
+    {
+        $categories = $this->productService->getAllCategories();
+        
+        return view('products.create', compact('categories'));
+    }
+
+    /**
+     * Store a newly created product in storage.
+     */
+    public function store(StoreProductRequest $request): RedirectResponse
     {
         try {
-            $perPage = $request->input('per_page', 15);
-            $search = $request->input('search');
-            $category = $request->input('category');
-            $status = $request->input('status');
+            $this->productService->createProduct($request->validated());
 
-            if ($perPage > 100) {
-                return response()->json(['error' => 'Maximum per_page value is 100'], 422);
-            }
-
-            $cacheKey = "products_list_{$perPage}_{$search}_{$category}_{$status}";
-
-            $products = Cache::remember($cacheKey, 300, function () use ($perPage, $search, $category, $status) {
-                $query = Product::query();
-
-                if ($search) {
-                    $query->where(function ($q) use ($search) {
-                        $q->where('name', 'like', "%{$search}%")
-                            ->orWhere('sku', 'like', "%{$search}%")
-                            ->orWhere('description', 'like', "%{$search}%");
-                    });
-                }
-
-                if ($category) {
-                    $query->where('category', $category);
-                }
-
-                if ($status) {
-                    $query->where('status', $status);
-                }
-
-                return $query->orderBy('created_at', 'desc')->paginate($perPage);
-            });
-
-            return response()->json([
-                'success' => true,
-                'data' => $products,
-            ]);
+            return redirect()->route('products.index')
+                ->with('success', 'Product created successfully.');
         } catch (\Exception $e) {
-            Log::error('Error fetching products: '.$e->getMessage());
-
-            return response()->json(['error' => 'An error occurred while fetching products'], 500);
+            return redirect()->back()
+                ->with('error', 'Error creating product: ' . $e->getMessage())
+                ->withInput();
         }
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Display the specified product.
      */
-    public function store(Request $request): JsonResponse
+    public function show(int $id): View
     {
-        $validated = $request->validate([
-            'name' => 'required|string|min:3|max:255',
-            'description' => 'nullable|string|max:1000',
-            'sku' => 'required|string|unique:products,sku|regex:/^[A-Z]{3}[0-9]{5}$/',
-            'price' => 'required|numeric|min:0.01|max:999999.99',
-            'stock' => 'required|integer|min:0|max:99999',
-            'category' => 'nullable|string|in:Electronics,Clothing,Books,Home & Garden,Sports,Toys',
-            'status' => 'sometimes|string|in:active,inactive,discontinued',
-            'is_featured' => 'sometimes|boolean',
+        $product = $this->productService->getProductById($id);
+
+        return view('products.show', compact('product'));
+    }
+
+    /**
+     * Show the form for editing the specified product.
+     */
+    public function edit(int $id): View
+    {
+        $product = $this->productService->getProductById($id);
+        $categories = $this->productService->getAllCategories();
+
+        return view('products.edit', compact('product', 'categories'));
+    }
+
+    /**
+     * Update the specified product in storage.
+     */
+    public function update(UpdateProductRequest $request, int $id): RedirectResponse
+    {
+        try {
+            $this->productService->updateProduct($id, $request->validated());
+
+            return redirect()->route('products.index')
+                ->with('success', 'Product updated successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Error updating product: ' . $e->getMessage())
+                ->withInput();
+        }
+    }
+
+    /**
+     * Remove the specified product from storage.
+     */
+    public function destroy(int $id): RedirectResponse
+    {
+        try {
+            $this->productService->deleteProduct($id);
+
+            return redirect()->route('products.index')
+                ->with('success', 'Product deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Error deleting product: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Update product stock.
+     */
+    public function updateStock(Request $request, int $id): RedirectResponse
+    {
+        $request->validate([
+            'quantity' => 'required|integer|min:1',
+            'operation' => 'required|in:add,subtract'
         ]);
 
         try {
-            DB::beginTransaction();
+            $this->productService->updateStock(
+                $id,
+                $request->quantity,
+                $request->operation
+            );
 
-            $product = Product::create($validated);
-
-            Cache::tags(['products'])->flush();
-
-            DB::commit();
-
-            Log::info('Product created successfully', ['product_id' => $product->id]);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Product created successfully',
-                'data' => $product,
-            ], 201);
+            return redirect()->route('products.index')
+                ->with('success', 'Stock updated successfully.');
         } catch (\Exception $e) {
-            DB::rollBack();
-            Log::error('Error creating product: '.$e->getMessage());
-
-            return response()->json(['error' => 'An error occurred while creating the product'], 500);
-        }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id): JsonResponse
-    {
-        try {
-            if (! is_numeric($id) || $id <= 0) {
-                return response()->json(['error' => 'Invalid product ID'], 422);
-            }
-
-            $cacheKey = "product_{$id}";
-
-            $product = Cache::remember($cacheKey, 300, function () use ($id) {
-                return Product::with('orders')->find($id);
-            });
-
-            if (! $product) {
-                return response()->json(['error' => 'Product not found'], 404);
-            }
-
-            return response()->json([
-                'success' => true,
-                'data' => $product,
-            ]);
-        } catch (\Exception $e) {
-            Log::error('Error fetching product: '.$e->getMessage());
-
-            return response()->json(['error' => 'An error occurred while fetching the product'], 500);
-        }
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id): JsonResponse
-    {
-        if (! is_numeric($id) || $id <= 0) {
-            return response()->json(['error' => 'Invalid product ID'], 422);
-        }
-
-        $product = Product::find($id);
-
-        if (! $product) {
-            return response()->json(['error' => 'Product not found'], 404);
-        }
-
-        $validated = $request->validate([
-            'name' => 'sometimes|required|string|min:3|max:255',
-            'description' => 'nullable|string|max:1000',
-            'sku' => [
-                'sometimes',
-                'required',
-                'string',
-                'regex:/^[A-Z]{3}[0-9]{5}$/',
-                Rule::unique('products')->ignore($id),
-            ],
-            'price' => 'sometimes|required|numeric|min:0.01|max:999999.99',
-            'stock' => 'sometimes|required|integer|min:0|max:99999',
-            'category' => 'nullable|string|in:Electronics,Clothing,Books,Home & Garden,Sports,Toys',
-            'status' => 'sometimes|string|in:active,inactive,discontinued',
-            'is_featured' => 'sometimes|boolean',
-        ]);
-
-        try {
-            DB::beginTransaction();
-
-            $product->update($validated);
-
-            Cache::forget("product_{$id}");
-            Cache::tags(['products'])->flush();
-
-            DB::commit();
-
-            Log::info('Product updated successfully', ['product_id' => $product->id]);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Product updated successfully',
-                'data' => $product->fresh(),
-            ]);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            Log::error('Error updating product: '.$e->getMessage());
-
-            return response()->json(['error' => 'An error occurred while updating the product'], 500);
-        }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id): JsonResponse
-    {
-        try {
-            if (! is_numeric($id) || $id <= 0) {
-                return response()->json(['error' => 'Invalid product ID'], 422);
-            }
-
-            DB::beginTransaction();
-
-            $product = Product::find($id);
-
-            if (! $product) {
-                return response()->json(['error' => 'Product not found'], 404);
-            }
-
-            // Check if product has orders
-            if ($product->orders()->count() > 0) {
-                return response()->json([
-                    'error' => 'Cannot delete product with existing orders',
-                ], 422);
-            }
-
-            $product->delete();
-
-            Cache::forget("product_{$id}");
-            Cache::tags(['products'])->flush();
-
-            DB::commit();
-
-            Log::info('Product deleted successfully', ['product_id' => $id]);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Product deleted successfully',
-            ]);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            Log::error('Error deleting product: '.$e->getMessage());
-
-            return response()->json(['error' => 'An error occurred while deleting the product'], 500);
+            return redirect()->back()
+                ->with('error', 'Error updating stock: ' . $e->getMessage());
         }
     }
 }

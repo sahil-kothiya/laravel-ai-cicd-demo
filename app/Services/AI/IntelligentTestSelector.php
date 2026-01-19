@@ -29,10 +29,9 @@ class IntelligentTestSelector
      * Critical tests that always run regardless of changes
      */
     private array $criticalTests = [
-        'Tests\\Feature\\Auth\\LoginTest',
-        'Tests\\Feature\\Auth\\RegisterTest',
-        'Tests\\Feature\\Payment\\PaymentProcessingTest',
-        'Tests\\Integration\\DatabaseIntegrityTest',
+        'Tests\\Feature\\UserControllerTest',
+        'Tests\\Feature\\ProductControllerTest',
+        'Tests\\Feature\\OrderControllerTest',
     ];
 
     /**

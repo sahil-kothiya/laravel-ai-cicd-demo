@@ -1,30 +1,22 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Dashboard
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-// User routes for testing
-Route::get('/users', [UserController::class, 'index']);
-Route::post('/users', [UserController::class, 'store']);
-Route::get('/users/{id}', [UserController::class, 'show']);
-Route::put('/users/{id}', [UserController::class, 'update']);
-Route::delete('/users/{id}', [UserController::class, 'destroy']);
-Route::post('/users/bulk', [UserController::class, 'bulkStore']);
+// Users Resource Routes
+Route::resource('users', UserController::class);
+Route::post('users/{id}/toggle-status', [UserController::class, 'toggleStatus'])->name('users.toggleStatus');
 
-// Product routes
-Route::get('/products', [\App\Http\Controllers\ProductController::class, 'index']);
-Route::post('/products', [\App\Http\Controllers\ProductController::class, 'store']);
-Route::get('/products/{id}', [\App\Http\Controllers\ProductController::class, 'show']);
-Route::put('/products/{id}', [\App\Http\Controllers\ProductController::class, 'update']);
-Route::delete('/products/{id}', [\App\Http\Controllers\ProductController::class, 'destroy']);
+// Products Resource Routes
+Route::resource('products', ProductController::class);
+Route::post('products/{id}/update-stock', [ProductController::class, 'updateStock'])->name('products.update-stock');
 
-// Order routes
-Route::get('/orders', [\App\Http\Controllers\OrderController::class, 'index']);
-Route::post('/orders', [\App\Http\Controllers\OrderController::class, 'store']);
-Route::get('/orders/{id}', [\App\Http\Controllers\OrderController::class, 'show']);
-Route::put('/orders/{id}', [\App\Http\Controllers\OrderController::class, 'update']);
-Route::delete('/orders/{id}', [\App\Http\Controllers\OrderController::class, 'destroy']);
+// Orders Resource Routes
+Route::resource('orders', OrderController::class);
+Route::post('orders/{id}/update-status', [OrderController::class, 'updateStatus'])->name('orders.update-status');

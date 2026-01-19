@@ -1,0 +1,235 @@
+{
+    "name": "AI Test Selection Configuration",
+    "version": "1.0",
+    "description": "Smart test selection based on file changes",
+    "testMappings": {
+        "app/Http/Controllers/UserController.php": {
+            "requiredTests": [
+                "tests/Feature/UserControllerTest.php"
+            ],
+            "optionalTests": [
+                "tests/Feature/OrderControllerTest.php::test_store_creates_order_with_valid_data",
+                "tests/Feature/OrderControllerTest.php::test_store_validation_user_exists"
+            ],
+            "skipTests": [
+                "tests/Feature/ProductControllerTest.php",
+                "tests/Feature/PerformanceTest.php"
+            ],
+            "estimatedTime": "9 seconds"
+        },
+        "app/Http/Controllers/ProductController.php": {
+            "requiredTests": [
+                "tests/Feature/ProductControllerTest.php"
+            ],
+            "optionalTests": [
+                "tests/Feature/OrderControllerTest.php::test_store_creates_order_with_valid_data",
+                "tests/Feature/OrderControllerTest.php::test_store_rejects_inactive_product"
+            ],
+            "skipTests": [
+                "tests/Feature/UserControllerTest.php",
+                "tests/Feature/PerformanceTest.php"
+            ],
+            "estimatedTime": "7 seconds"
+        },
+        "app/Http/Controllers/OrderController.php": {
+            "requiredTests": [
+                "tests/Feature/OrderControllerTest.php"
+            ],
+            "optionalTests": [],
+            "skipTests": [
+                "tests/Feature/PerformanceTest.php"
+            ],
+            "estimatedTime": "7 seconds"
+        },
+        "app/Models/User.php": {
+            "requiredTests": [
+                "tests/Feature/UserControllerTest.php",
+                "tests/Feature/OrderControllerTest.php"
+            ],
+            "skipTests": [
+                "tests/Feature/ProductControllerTest.php",
+                "tests/Feature/PerformanceTest.php"
+            ],
+            "estimatedTime": "12 seconds"
+        },
+        "app/Models/Product.php": {
+            "requiredTests": [
+                "tests/Feature/ProductControllerTest.php",
+                "tests/Feature/OrderControllerTest.php"
+            ],
+            "skipTests": [
+                "tests/Feature/UserControllerTest.php",
+                "tests/Feature/PerformanceTest.php"
+            ],
+            "estimatedTime": "12 seconds"
+        },
+        "app/Models/Order.php": {
+            "requiredTests": [
+                "tests/Feature/OrderControllerTest.php"
+            ],
+            "skipTests": [
+                "tests/Feature/PerformanceTest.php"
+            ],
+            "estimatedTime": "7 seconds"
+        },
+        "app/Http/Requests/*.php": {
+            "requiredTests": [
+                "tests/Feature/UserControllerTest.php::test_store_*",
+                "tests/Feature/UserControllerTest.php::test_update_*"
+            ],
+            "skipTests": [
+                "tests/Feature/PerformanceTest.php"
+            ],
+            "estimatedTime": "5 seconds"
+        },
+        "database/migrations/*.php": {
+            "requiredTests": [
+                "tests/Feature/UserControllerTest.php",
+                "tests/Feature/ProductControllerTest.php",
+                "tests/Feature/OrderControllerTest.php"
+            ],
+            "skipTests": [
+                "tests/Feature/PerformanceTest.php"
+            ],
+            "estimatedTime": "20 seconds",
+            "reason": "Schema changes affect all models"
+        },
+        "routes/web.php": {
+            "requiredTests": [
+                "tests/Feature/UserControllerTest.php::test_index*",
+                "tests/Feature/ProductControllerTest.php::test_index*",
+                "tests/Feature/OrderControllerTest.php::test_index*"
+            ],
+            "skipTests": [
+                "tests/Feature/PerformanceTest.php"
+            ],
+            "estimatedTime": "8 seconds"
+        },
+        "*.md": {
+            "requiredTests": [],
+            "runSmoke": true,
+            "skipTests": [
+                "tests/Feature/UserControllerTest.php",
+                "tests/Feature/ProductControllerTest.php",
+                "tests/Feature/OrderControllerTest.php",
+                "tests/Feature/PerformanceTest.php"
+            ],
+            "estimatedTime": "2 seconds",
+            "reason": "Documentation changes don't affect code"
+        },
+        "config/*.php": {
+            "requiredTests": [
+                "tests/Feature/UserControllerTest.php::test_index*"
+            ],
+            "runSmoke": true,
+            "skipTests": [
+                "tests/Feature/PerformanceTest.php"
+            ],
+            "estimatedTime": "5 seconds"
+        }
+    },
+    "testSuites": {
+        "smoke": {
+            "tests": [
+                "tests/Feature/UserControllerTest.php::test_show_returns_single_user",
+                "tests/Feature/ProductControllerTest.php::test_show_returns_single_product",
+                "tests/Feature/OrderControllerTest.php::test_show_returns_order_with_relationships"
+            ],
+            "estimatedTime": "2 seconds"
+        },
+        "fast": {
+            "exclude": [
+                "tests/Feature/PerformanceTest.php"
+            ],
+            "estimatedTime": "17 seconds"
+        },
+        "validation": {
+            "filter": "test_*_validation_*",
+            "estimatedTime": "8 seconds"
+        },
+        "crud": {
+            "filter": "test_store_*|test_update_*|test_destroy_*",
+            "estimatedTime": "12 seconds"
+        },
+        "performance": {
+            "tests": [
+                "tests/Feature/PerformanceTest.php"
+            ],
+            "estimatedTime": "52 seconds",
+            "runOnlyFor": [
+                "release",
+                "nightly"
+            ]
+        }
+    },
+    "executionStrategy": {
+        "default": "smart-selection",
+        "fallback": "fast-suite",
+        "onFailure": "full-suite",
+        "smart-selection": {
+            "analyzeGitDiff": true,
+            "mapFilesToTests": true,
+            "skipUnrelatedTests": true,
+            "runSmokeTests": "always"
+        },
+        "thresholds": {
+            "maxTestTime": 20,
+            "maxTestTimeUnit": "seconds",
+            "warningThreshold": 15,
+            "criticalThreshold": 30
+        }
+    },
+    "performanceBaselines": {
+        "fullSuite": {
+            "traditional": "118 seconds (with sleep)",
+            "optimized": "69 seconds (without sleep)",
+            "target": "69 seconds"
+        },
+        "smartSelection": {
+            "commentChange": "2-3 seconds",
+            "singleModule": "7-10 seconds",
+            "twoModules": "12-15 seconds",
+            "threeModules": "20-25 seconds"
+        }
+    },
+    "examples": {
+        "scenario1": {
+            "change": "Added comment in UserController.php",
+            "filesChanged": [
+                "app/Http/Controllers/UserController.php"
+            ],
+            "changeType": "comment",
+            "testsToRun": [
+                "smoke"
+            ],
+            "expectedTime": "2 seconds",
+            "actualSavings": "97% faster than full suite"
+        },
+        "scenario2": {
+            "change": "Modified user creation logic",
+            "filesChanged": [
+                "app/Http/Controllers/UserController.php"
+            ],
+            "changeType": "logic",
+            "testsToRun": [
+                "tests/Feature/UserControllerTest.php"
+            ],
+            "expectedTime": "9 seconds",
+            "actualSavings": "87% faster than full suite"
+        },
+        "scenario3": {
+            "change": "Updated Product and Order models",
+            "filesChanged": [
+                "app/Models/Product.php",
+                "app/Models/Order.php"
+            ],
+            "changeType": "model",
+            "testsToRun": [
+                "tests/Feature/ProductControllerTest.php",
+                "tests/Feature/OrderControllerTest.php"
+            ],
+            "expectedTime": "14 seconds",
+            "actualSavings": "80% faster than full suite"
+        }
+    }
+}
