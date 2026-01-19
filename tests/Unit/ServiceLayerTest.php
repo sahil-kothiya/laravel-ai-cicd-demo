@@ -333,13 +333,13 @@ class ServiceLayerTest extends TestCase
     public function test_product_service_features_product(): void
     {
         $product = Product::factory()->create(['is_featured' => true]);
-        $this->assertTrue($product->featured);
+        $this->assertTrue($product->is_featured);
     }
 
     public function test_product_service_unfeatures_product(): void
     {
         $product = Product::factory()->create(['is_featured' => false]);
-        $this->assertFalse($product->featured);
+        $this->assertFalse($product->is_featured);
     }
 
     public function test_product_service_activates_product(): void
@@ -386,7 +386,7 @@ class ServiceLayerTest extends TestCase
     public function test_product_service_gets_featured_products(): void
     {
         Product::factory()->count(5)->create(['is_featured' => true]);
-        $featured = Product::where('featured', true)->count();
+        $featured = Product::where('is_featured', true)->count();
         $this->assertGreaterThanOrEqual(5, $featured);
     }
 

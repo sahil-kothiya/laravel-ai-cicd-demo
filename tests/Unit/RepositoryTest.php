@@ -93,7 +93,7 @@ class RepositoryTest extends TestCase
         $user = User::factory()->create();
         $userId = $user->id;
         $user->delete();
-        $this->assertDatabaseHas('users', ['id' => $userId]);
+        $this->assertDatabaseMissing('users', ['id' => $userId]);
     }
 
     public function test_user_repository_eager_loads_orders(): void
@@ -239,7 +239,7 @@ class RepositoryTest extends TestCase
     public function test_product_repository_filters_by_featured(): void
     {
         Product::factory()->count(4)->create(['is_featured' => true]);
-        $featured = Product::where('featured', true)->count();
+        $featured = Product::where('is_featured', true)->count();
         $this->assertGreaterThanOrEqual(4, $featured);
     }
 

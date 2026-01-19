@@ -437,13 +437,13 @@ class EdgeCaseTest extends TestCase
     public function test_edge_boolean_true_value(): void
     {
         $product = Product::factory()->create(['is_featured' => true]);
-        $this->assertTrue($product->featured);
+        $this->assertTrue($product->is_featured);
     }
 
     public function test_edge_boolean_false_value(): void
     {
         $product = Product::factory()->create(['is_featured' => false]);
-        $this->assertFalse($product->featured);
+        $this->assertFalse($product->is_featured);
     }
 
     // Concurrent Operations Tests (20 tests)

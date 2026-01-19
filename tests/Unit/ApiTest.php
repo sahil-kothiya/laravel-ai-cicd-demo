@@ -335,7 +335,7 @@ class ApiTest extends TestCase
     public function test_api_product_filter_by_featured(): void
     {
         Product::factory()->count(3)->create(['is_featured' => true]);
-        $featured = Product::where('featured', true)->count();
+        $featured = Product::where('is_featured', true)->count();
         $this->assertGreaterThanOrEqual(3, $featured);
     }
 
@@ -438,7 +438,7 @@ class ApiTest extends TestCase
     {
         $product = Product::factory()->create(['is_featured' => false]);
         $product->update(['is_featured' => true]);
-        $this->assertTrue($product->fresh()->featured);
+        $this->assertTrue($product->fresh()->is_featured);
     }
 
     public function test_api_product_status_toggle(): void

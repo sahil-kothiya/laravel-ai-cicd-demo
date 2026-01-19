@@ -305,7 +305,7 @@ class ProductComprehensiveTest extends TestCase
     public function test_product_category_featured_items(): void
     {
         Product::factory()->count(3)->create(['category' => 'electronics', 'is_featured' => true]);
-        $featured = Product::where('category', 'electronics')->where('featured', true)->count();
+        $featured = Product::where('category', 'electronics')->where('is_featured', true)->count();
         $this->assertEquals(3, $featured);
     }
 
@@ -470,7 +470,7 @@ class ProductComprehensiveTest extends TestCase
     {
         Product::factory()->create(['is_featured' => true]);
         Product::factory()->create(['is_featured' => false]);
-        $featured = Product::where('featured', true)->count();
+        $featured = Product::where('is_featured', true)->count();
         $this->assertEquals(1, $featured);
     }
 
@@ -771,7 +771,7 @@ class ProductComprehensiveTest extends TestCase
     public function test_product_bestseller_badge(): void
     {
         $product = Product::factory()->create(['is_featured' => true]);
-        $this->assertTrue($product->featured);
+        $this->assertTrue($product->is_featured);
     }
 
     public function test_product_new_arrival_badge(): void
