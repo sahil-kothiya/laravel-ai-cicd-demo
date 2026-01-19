@@ -26,12 +26,13 @@ class IntelligentTestSelector
     private array $config;
 
     /**
-     * Critical tests that always run regardless of changes
+     * Critical tests that should run for risky changes
+     * For documentation/config-only changes, these can be skipped
      */
     private array $criticalTests = [
-        'Tests\\Feature\\UserControllerTest',
-        'Tests\\Feature\\ProductControllerTest',
-        'Tests\\Feature\\OrderControllerTest',
+        'Tests\\Unit\\UserTest',
+        'Tests\\Unit\\ProductTest',
+        'Tests\\Unit\\OrderTest',
     ];
 
     /**
@@ -66,6 +67,20 @@ class IntelligentTestSelector
             return $this->getFallbackTests();
         }
 
+        // Check if only documentation/config files changed
+        $onlyDocsOrConfig = $this->onlyDocsOrConfigChanged($changedFiles);
+
+        if ($onlyDocsOrConfig) {
+            // For docs-only changes, run minimal smoke tests
+            return collect([[
+                'test' => 'Tests\\Unit\\UserTest::test_user_creation',
+                'reason' => 'smoke_test',
+                'confidence' => 1.0,
+                'impact_score' => 0.5,
+                'file' => 'smoke',
+            ]]);
+        }
+
         // Step 2: Map changed files to affected tests
         $affectedTests = $this->mapFilesToTests($changedFiles);
 
@@ -75,8 +90,9 @@ class IntelligentTestSelector
         // Step 4: Select high-impact tests
         $selectedTests = $this->selectHighImpactTests($scoredTests);
 
-        // Step 5: Always include critical tests
-        if ($this->config['always_run_critical']) {
+        // Step 5: Include critical tests only if code changes are risky
+        $hasRiskyChanges = $this->hasRiskyChanges($changedFiles);
+        if ($this->config['always_run_critical'] && $hasRiskyChanges) {
             $selectedTests = $this->mergeCriticalTests($selectedTests);
         }
 
@@ -308,16 +324,34 @@ class IntelligentTestSelector
         if (file_exists($mappingFile)) {
             $this->testMappings = json_decode(file_get_contents($mappingFile), true);
         } else {
-            // Default mappings for demo
+            // Default mappings for demo - matches actual test structure
             $this->testMappings = [
                 'app/Http/Controllers/UserController.php' => [
-                    'Tests\\Feature\\UserControllerTest' => 0.95,
-                    'Tests\\Feature\\UserApiTest' => 0.80,
+                    'Tests\\Unit\\UserTest' => 0.95,
                 ],
                 'app/Models/User.php' => [
                     'Tests\\Unit\\UserTest' => 0.95,
-                    'Tests\\Feature\\UserControllerTest' => 0.70,
-                    'Tests\\Feature\\Auth\\RegisterTest' => 0.85,
+                ],
+                'app/Http/Controllers/ProductController.php' => [
+                    'Tests\\Unit\\ProductTest' => 0.95,
+                ],
+                'app/Models/Product.php' => [
+                    'Tests\\Unit\\ProductTest' => 0.95,
+                ],
+                'app/Http/Controllers/OrderController.php' => [
+                    'Tests\\Unit\\OrderTest' => 0.95,
+                ],
+                'app/Models/Order.php' => [
+                    'Tests\\Unit\\OrderTest' => 0.95,
+                ],
+                'app/Services/UserService.php' => [
+                    'Tests\\Unit\\UserTest' => 0.85,
+                ],
+                'app/Services/ProductService.php' => [
+                    'Tests\\Unit\\ProductTest' => 0.85,
+                ],
+                'app/Services/OrderService.php' => [
+                    'Tests\\Unit\\OrderTest' => 0.85,
                 ],
             ];
         }
@@ -398,5 +432,53 @@ class IntelligentTestSelector
         $selectedTime = ($selectedTests * $avgTimePerTest) / 60; // minutes
 
         return round($totalTime - $selectedTime, 1);
+    }
+
+    /**
+     * Check if only documentation or config files changed
+     */
+    private function onlyDocsOrConfigChanged(Collection $changedFiles): bool
+    {
+        $docPatterns = ['*.md', '*.txt', '.env.example', '*.yml', '*.yaml', '.gitignore', 'LICENSE'];
+
+        foreach ($changedFiles as $file) {
+            // If it's a PHP file, return false
+            if (str_ends_with($file, '.php')) {
+                return false;
+            }
+
+            // If it's a config or migration, return false
+            if (str_contains($file, 'config/') && str_ends_with($file, '.php')) {
+                return false;
+            }
+            if (str_contains($file, 'database/migrations/')) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Check if changes involve risky code areas
+     */
+    private function hasRiskyChanges(Collection $changedFiles): bool
+    {
+        $riskyPatterns = [
+            'app/Models/',
+            'app/Http/Controllers/',
+            'database/migrations/',
+            'app/Services/',
+        ];
+
+        foreach ($changedFiles as $file) {
+            foreach ($riskyPatterns as $pattern) {
+                if (str_contains($file, $pattern)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

@@ -1,27 +1,27 @@
 {
-    "timestamp": "2026-01-16T12:26:12+00:00",
+    "timestamp": "2026-01-19T05:21:32+00:00",
     "tests": [
-        "Tests\\Feature\\UserControllerTest",
-        "Tests\\Feature\\ProductControllerTest",
-        "Tests\\Feature\\OrderControllerTest"
+        "Tests\\Unit\\UserTest",
+        "Tests\\Unit\\ProductTest",
+        "Tests\\Unit\\OrderTest"
     ],
     "metadata": [
         {
-            "test": "Tests\\Feature\\UserControllerTest",
+            "test": "Tests\\Unit\\UserTest",
             "reason": "critical",
             "confidence": 1,
             "impact_score": 1,
             "file": "N\/A"
         },
         {
-            "test": "Tests\\Feature\\ProductControllerTest",
+            "test": "Tests\\Unit\\ProductTest",
             "reason": "critical",
             "confidence": 1,
             "impact_score": 1,
             "file": "N\/A"
         },
         {
-            "test": "Tests\\Feature\\OrderControllerTest",
+            "test": "Tests\\Unit\\OrderTest",
             "reason": "critical",
             "confidence": 1,
             "impact_score": 1,

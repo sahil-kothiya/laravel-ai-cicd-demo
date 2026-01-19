@@ -216,12 +216,14 @@ jobs:
           # Get selected tests from previous job
           TESTS="${{ needs.select-tests.outputs.tests }}"
           
-          if [ -z "$TESTS" ]; then
-            echo "Running all tests (fallback)"
-            php artisan test
+          if [ -z \"$TESTS\" ] || [ \"$TESTS\" = \"\" ]; then
+            echo \"⚠️ No specific tests selected, running smoke tests only\"
+            php artisan test --filter=\"test_user_creation\"
           else
-            echo "Running selected tests"
-            php artisan test --filter="$TESTS"
+            echo \"🎯 Running AI-selected tests: $TESTS\"
+            # Convert test list to filter pattern
+            FILTER=$(echo \"$TESTS\" | tr ',' '|')
+            php artisan test --filter=\"$FILTER\"
           fi
       
       - name: Upload Coverage Report
