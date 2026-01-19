@@ -1,7 +1,7 @@
-name: Traditional CI/CD Pipeline (OLD WAY)
+name: Traditional CI/CD (OLD WAY)
 
-# This shows the TRADITIONAL approach - runs ALL tests every time
-# Problem: Slow, expensive, wasteful
+# TRADITIONAL: Runs ALL tests every single time
+# Problem: Slow, wasteful, no intelligence
 
 on:
   push:
@@ -10,8 +10,8 @@ on:
     branches: [ main ]
 
 jobs:
-  traditional-tests:
-    name: "😴 Run ALL Tests (Traditional Way)"
+  traditional-full-tests:
+    name: "😴 Run ALL Tests (Traditional)"
     runs-on: ubuntu-latest
     
     steps:
@@ -22,59 +22,62 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
-          extensions: mbstring, xml, ctype, json, bcmath
+          extensions: mbstring, xml, ctype, json
           coverage: none
       
-      - name: 📦 Install Composer dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest
+      - name: 📦 Install dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction
       
-      - name: 📋 Copy .env file
-        run: cp .env.example .env
-      
-      - name: 🔑 Generate application key
-        run: php artisan key:generate
+      - name: 📋 Setup Laravel
+        run: |
+          cp .env.example .env
+          php artisan key:generate
       
       - name: ⏱️ Start timer
         run: echo "START_TIME=$(date +%s)" >> $GITHUB_ENV
       
-      - name: 🧪 Run ALL tests (Traditional - NO AI)
+      - name: 🧪 Run ALL Tests (No Intelligence)
         run: |
-          echo \"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\"
-          echo \"  TRADITIONAL PIPELINE - Running ALL Tests\"
-          echo \"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\"
-          echo \"\"
-          echo \"⚠️  WARNING: This runs EVERY test, every time!\"
-          echo \"⚠️  Even if you only changed 1 file...\"
-          echo \"⚠️  No intelligence, no optimization\"
-          echo \"\"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "  TRADITIONAL PIPELINE - Running ALL Tests"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo ""
+          echo "⚠️  WARNING: This runs EVERY test, every time!"
+          echo "⚠️  Even if you only changed 1 file..."
+          echo "⚠️  No AI, No optimization, No intelligence"
+          echo ""
           
-          # Run tests 3 times to simulate thorough CI/CD checks
-          echo \"📊 Pass 1: Unit Tests\"
-          vendor/bin/phpunit --testsuite=Unit
+          # Run ALL tests multiple times (simulates thorough checking)
+          echo "📊 Pass 1: Full Test Suite"
+          vendor/bin/phpunit --testdox
           
-          echo \"\"
-          echo \"📊 Pass 2: Integration Validation\"
-          vendor/bin/phpunit --testsuite=Unit
+          echo ""
+          echo "📊 Pass 2: Regression Check"
+          vendor/bin/phpunit
           
-          echo \"\"
-          echo \"📊 Pass 3: Regression Check\"
-          vendor/bin/phpunit --testsuite=Unit
+          echo ""
+          echo "📊 Pass 3: Final Verification"
+          vendor/bin/phpunit
           
           echo ""
           echo "✅ All tests passed, but at what cost?"
+          echo "⏰ You just waited while ALL tests ran 3 times..."
       
-      - name: ⏱️ Calculate time taken
+      - name: ⏱️ Show wasted time
         if: always()
         run: |
           END_TIME=$(date +%s)
           DURATION=$((END_TIME - START_TIME))
           MINUTES=$((DURATION / 60))
           SECONDS=$((DURATION % 60))
+          
           echo ""
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-          echo \"  ⏰ Time Taken: ${MINUTES}m ${SECONDS}s\"
-          echo \"  📊 Tests Run: ALL tests × 3 passes\"
-          echo \"  💸 Estimated Cost: \$0.15\"
-          echo \"  😤 Developer Experience: Poor\"
-          echo \"  🎯 AI Alternative: Would be 5-10x faster!\"
+          echo "  ⏰ Traditional Pipeline Results"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "  ⏰ Time Wasted: ${MINUTES}m ${SECONDS}s"
+          echo "  🧪 Tests Run: ALL 36 tests × 3 passes = 108 executions"
+          echo "  💸 Estimated Cost: \$0.15"
+          echo "  😤 Developer Frustration: High"
+          echo "  💡 AI Alternative: Would be 3-5x faster!"
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
