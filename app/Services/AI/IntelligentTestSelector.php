@@ -328,30 +328,52 @@ class IntelligentTestSelector
             $this->testMappings = [
                 'app/Http/Controllers/UserController.php' => [
                     'Tests\\Unit\\UserTest' => 0.95,
+                    'Tests\\Unit\\UserValidationTest' => 0.90,
                 ],
                 'app/Models/User.php' => [
                     'Tests\\Unit\\UserTest' => 0.95,
+                    'Tests\\Unit\\UserValidationTest' => 0.95,
+                    'Tests\\Unit\\DataIntegrityTest' => 0.70,
+                    'Tests\\Unit\\IntegrationTest' => 0.60,
                 ],
                 'app/Http/Controllers/ProductController.php' => [
                     'Tests\\Unit\\ProductTest' => 0.95,
+                    'Tests\\Unit\\ProductValidationTest' => 0.90,
                 ],
                 'app/Models/Product.php' => [
                     'Tests\\Unit\\ProductTest' => 0.95,
+                    'Tests\\Unit\\ProductValidationTest' => 0.95,
+                    'Tests\\Unit\\DataIntegrityTest' => 0.70,
+                    'Tests\\Unit\\IntegrationTest' => 0.60,
                 ],
                 'app/Http/Controllers/OrderController.php' => [
                     'Tests\\Unit\\OrderTest' => 0.95,
+                    'Tests\\Unit\\OrderValidationTest' => 0.90,
                 ],
                 'app/Models/Order.php' => [
                     'Tests\\Unit\\OrderTest' => 0.95,
+                    'Tests\\Unit\\OrderValidationTest' => 0.95,
+                    'Tests\\Unit\\DataIntegrityTest' => 0.70,
+                    'Tests\\Unit\\IntegrationTest' => 0.60,
                 ],
                 'app/Services/UserService.php' => [
                     'Tests\\Unit\\UserTest' => 0.85,
+                    'Tests\\Unit\\UserValidationTest' => 0.75,
+                    'Tests\\Unit\\IntegrationTest' => 0.50,
                 ],
                 'app/Services/ProductService.php' => [
                     'Tests\\Unit\\ProductTest' => 0.85,
+                    'Tests\\Unit\\ProductValidationTest' => 0.75,
+                    'Tests\\Unit\\IntegrationTest' => 0.50,
                 ],
                 'app/Services/OrderService.php' => [
                     'Tests\\Unit\\OrderTest' => 0.85,
+                    'Tests\\Unit\\OrderValidationTest' => 0.75,
+                    'Tests\\Unit\\IntegrationTest' => 0.50,
+                ],
+                'database/migrations/' => [
+                    'Tests\\Unit\\DataIntegrityTest' => 0.90,
+                    'Tests\\Unit\\IntegrationTest' => 0.70,
                 ],
             ];
         }
