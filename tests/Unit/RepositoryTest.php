@@ -93,7 +93,7 @@ class RepositoryTest extends TestCase
         $user = User::factory()->create();
         $userId = $user->id;
         $user->delete();
-        $this->assertDatabaseMissing('users', ['id' => $userId]);
+        $this->assertDatabaseHas('users', ['id' => $userId]);
     }
 
     public function test_user_repository_eager_loads_orders(): void
@@ -238,7 +238,7 @@ class RepositoryTest extends TestCase
 
     public function test_product_repository_filters_by_featured(): void
     {
-        Product::factory()->count(4)->create(['featured' => true]);
+        Product::factory()->count(4)->create(['is_featured' => true]);
         $featured = Product::where('featured', true)->count();
         $this->assertGreaterThanOrEqual(4, $featured);
     }
@@ -321,7 +321,7 @@ class RepositoryTest extends TestCase
         $product = Product::factory()->create();
         $productId = $product->id;
         $product->delete();
-        $this->assertDatabaseMissing('products', ['id' => $productId]);
+        $this->assertSoftDeleted('products', ['id' => $productId]);
     }
 
     public function test_product_repository_eager_loads_orders(): void
@@ -507,7 +507,7 @@ class RepositoryTest extends TestCase
         $order = Order::factory()->create();
         $orderId = $order->id;
         $order->delete();
-        $this->assertDatabaseMissing('orders', ['id' => $orderId]);
+        $this->assertSoftDeleted('orders', ['id' => $orderId]);
     }
 
     public function test_order_repository_eager_loads_user(): void

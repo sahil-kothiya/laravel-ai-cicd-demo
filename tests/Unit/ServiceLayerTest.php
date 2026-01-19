@@ -243,7 +243,7 @@ class ServiceLayerTest extends TestCase
         $product = Product::factory()->create();
         $productId = $product->id;
         $product->delete();
-        $this->assertDatabaseMissing('products', ['id' => $productId]);
+        $this->assertSoftDeleted('products', ['id' => $productId]);
     }
 
     public function test_product_service_finds_product_by_sku(): void
@@ -332,13 +332,13 @@ class ServiceLayerTest extends TestCase
 
     public function test_product_service_features_product(): void
     {
-        $product = Product::factory()->create(['featured' => true]);
+        $product = Product::factory()->create(['is_featured' => true]);
         $this->assertTrue($product->featured);
     }
 
     public function test_product_service_unfeatures_product(): void
     {
-        $product = Product::factory()->create(['featured' => false]);
+        $product = Product::factory()->create(['is_featured' => false]);
         $this->assertFalse($product->featured);
     }
 
@@ -385,7 +385,7 @@ class ServiceLayerTest extends TestCase
 
     public function test_product_service_gets_featured_products(): void
     {
-        Product::factory()->count(5)->create(['featured' => true]);
+        Product::factory()->count(5)->create(['is_featured' => true]);
         $featured = Product::where('featured', true)->count();
         $this->assertGreaterThanOrEqual(5, $featured);
     }

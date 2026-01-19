@@ -47,6 +47,17 @@ class User extends Authenticatable
     ];
 
     /**
+     * Set the user's email address (convert to lowercase and trim)
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setEmailAttribute($value)
+    {
+        $this->attributes['email'] = strtolower(trim($value));
+    }
+
+    /**
      * Get orders for this user
      */
     public function orders()

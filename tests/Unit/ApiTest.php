@@ -279,7 +279,7 @@ class ApiTest extends TestCase
         $product = Product::factory()->create();
         $productId = $product->id;
         $product->delete();
-        $this->assertDatabaseMissing('products', ['id' => $productId]);
+        $this->assertSoftDeleted('products', ['id' => $productId]);
     }
 
     public function test_api_product_list_pagination(): void
@@ -334,7 +334,7 @@ class ApiTest extends TestCase
 
     public function test_api_product_filter_by_featured(): void
     {
-        Product::factory()->count(3)->create(['featured' => true]);
+        Product::factory()->count(3)->create(['is_featured' => true]);
         $featured = Product::where('featured', true)->count();
         $this->assertGreaterThanOrEqual(3, $featured);
     }
@@ -436,8 +436,8 @@ class ApiTest extends TestCase
 
     public function test_api_product_featured_toggle(): void
     {
-        $product = Product::factory()->create(['featured' => false]);
-        $product->update(['featured' => true]);
+        $product = Product::factory()->create(['is_featured' => false]);
+        $product->update(['is_featured' => true]);
         $this->assertTrue($product->fresh()->featured);
     }
 
@@ -523,7 +523,7 @@ class ApiTest extends TestCase
         $order = Order::factory()->create();
         $orderId = $order->id;
         $order->delete();
-        $this->assertDatabaseMissing('orders', ['id' => $orderId]);
+        $this->assertSoftDeleted('orders', ['id' => $orderId]);
     }
 
     public function test_api_order_list_pagination(): void
