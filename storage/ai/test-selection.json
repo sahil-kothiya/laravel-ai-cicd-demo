@@ -1,9 +1,11 @@
 {
-    "timestamp": "2026-01-19T05:37:53+00:00",
+    "timestamp": "2026-01-19T08:58:27+00:00",
     "tests": [
         "Tests\\Unit\\UserTest",
         "Tests\\Unit\\ProductTest",
-        "Tests\\Unit\\OrderTest"
+        "Tests\\Unit\\OrderTest",
+        "Tests\\Unit\\SecurityTest",
+        "Tests\\Unit\\IntegrationTest"
     ],
     "metadata": [
         {
@@ -22,6 +24,20 @@
         },
         {
             "test": "Tests\\Unit\\OrderTest",
+            "reason": "critical",
+            "confidence": 1,
+            "impact_score": 1,
+            "file": "N\/A"
+        },
+        {
+            "test": "Tests\\Unit\\SecurityTest",
+            "reason": "critical",
+            "confidence": 1,
+            "impact_score": 1,
+            "file": "N\/A"
+        },
+        {
+            "test": "Tests\\Unit\\IntegrationTest",
             "reason": "critical",
             "confidence": 1,
             "impact_score": 1,
