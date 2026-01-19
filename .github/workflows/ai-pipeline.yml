@@ -1,7 +1,7 @@
 name: AI-Powered CI/CD (NEW WAY)
 
 # AI-POWERED: Intelligently selects only affected tests
-# Result: 3-5x faster than traditional
+# Result: 3-5x faster than traditional pipelines
 
 on:
   push:
