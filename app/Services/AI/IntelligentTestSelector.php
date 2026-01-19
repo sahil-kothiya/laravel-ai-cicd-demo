@@ -33,6 +33,8 @@ class IntelligentTestSelector
         'Tests\\Unit\\UserTest',
         'Tests\\Unit\\ProductTest',
         'Tests\\Unit\\OrderTest',
+        'Tests\\Unit\\SecurityTest',
+        'Tests\\Unit\\IntegrationTest',
     ];
 
     /**
@@ -329,51 +331,96 @@ class IntelligentTestSelector
                 'app/Http/Controllers/UserController.php' => [
                     'Tests\\Unit\\UserTest' => 0.95,
                     'Tests\\Unit\\UserValidationTest' => 0.90,
+                    'Tests\\Unit\\UserComprehensiveTest' => 0.95,
+                    'Tests\\Unit\\ApiTest' => 0.85,
                 ],
                 'app/Models/User.php' => [
                     'Tests\\Unit\\UserTest' => 0.95,
                     'Tests\\Unit\\UserValidationTest' => 0.95,
+                    'Tests\\Unit\\UserComprehensiveTest' => 0.95,
                     'Tests\\Unit\\DataIntegrityTest' => 0.70,
                     'Tests\\Unit\\IntegrationTest' => 0.60,
+                    'Tests\\Unit\\ServiceLayerTest' => 0.75,
+                    'Tests\\Unit\\RepositoryTest' => 0.75,
+                    'Tests\\Unit\\SecurityTest' => 0.80,
+                    'Tests\\Unit\\EdgeCaseTest' => 0.65,
                 ],
                 'app/Http/Controllers/ProductController.php' => [
                     'Tests\\Unit\\ProductTest' => 0.95,
                     'Tests\\Unit\\ProductValidationTest' => 0.90,
+                    'Tests\\Unit\\ProductComprehensiveTest' => 0.95,
+                    'Tests\\Unit\\ApiTest' => 0.85,
                 ],
                 'app/Models/Product.php' => [
                     'Tests\\Unit\\ProductTest' => 0.95,
                     'Tests\\Unit\\ProductValidationTest' => 0.95,
+                    'Tests\\Unit\\ProductComprehensiveTest' => 0.95,
                     'Tests\\Unit\\DataIntegrityTest' => 0.70,
                     'Tests\\Unit\\IntegrationTest' => 0.60,
+                    'Tests\\Unit\\ServiceLayerTest' => 0.75,
+                    'Tests\\Unit\\RepositoryTest' => 0.75,
+                    'Tests\\Unit\\EdgeCaseTest' => 0.65,
                 ],
                 'app/Http/Controllers/OrderController.php' => [
                     'Tests\\Unit\\OrderTest' => 0.95,
                     'Tests\\Unit\\OrderValidationTest' => 0.90,
+                    'Tests\\Unit\\OrderComprehensiveTest' => 0.95,
+                    'Tests\\Unit\\ApiTest' => 0.85,
                 ],
                 'app/Models/Order.php' => [
                     'Tests\\Unit\\OrderTest' => 0.95,
                     'Tests\\Unit\\OrderValidationTest' => 0.95,
+                    'Tests\\Unit\\OrderComprehensiveTest' => 0.95,
                     'Tests\\Unit\\DataIntegrityTest' => 0.70,
                     'Tests\\Unit\\IntegrationTest' => 0.60,
+                    'Tests\\Unit\\ServiceLayerTest' => 0.75,
+                    'Tests\\Unit\\RepositoryTest' => 0.75,
+                    'Tests\\Unit\\EdgeCaseTest' => 0.65,
                 ],
                 'app/Services/UserService.php' => [
                     'Tests\\Unit\\UserTest' => 0.85,
                     'Tests\\Unit\\UserValidationTest' => 0.75,
+                    'Tests\\Unit\\UserComprehensiveTest' => 0.90,
                     'Tests\\Unit\\IntegrationTest' => 0.50,
+                    'Tests\\Unit\\ServiceLayerTest' => 0.95,
                 ],
                 'app/Services/ProductService.php' => [
                     'Tests\\Unit\\ProductTest' => 0.85,
                     'Tests\\Unit\\ProductValidationTest' => 0.75,
+                    'Tests\\Unit\\ProductComprehensiveTest' => 0.90,
                     'Tests\\Unit\\IntegrationTest' => 0.50,
+                    'Tests\\Unit\\ServiceLayerTest' => 0.95,
                 ],
                 'app/Services/OrderService.php' => [
                     'Tests\\Unit\\OrderTest' => 0.85,
                     'Tests\\Unit\\OrderValidationTest' => 0.75,
+                    'Tests\\Unit\\OrderComprehensiveTest' => 0.90,
                     'Tests\\Unit\\IntegrationTest' => 0.50,
+                    'Tests\\Unit\\ServiceLayerTest' => 0.95,
+                ],
+                'app/Repositories/UserRepository.php' => [
+                    'Tests\\Unit\\RepositoryTest' => 0.95,
+                    'Tests\\Unit\\UserComprehensiveTest' => 0.70,
+                ],
+                'app/Repositories/ProductRepository.php' => [
+                    'Tests\\Unit\\RepositoryTest' => 0.95,
+                    'Tests\\Unit\\ProductComprehensiveTest' => 0.70,
+                ],
+                'app/Repositories/OrderRepository.php' => [
+                    'Tests\\Unit\\RepositoryTest' => 0.95,
+                    'Tests\\Unit\\OrderComprehensiveTest' => 0.70,
+                ],
+                'app/Http/Middleware/' => [
+                    'Tests\\Unit\\SecurityTest' => 0.90,
+                    'Tests\\Unit\\ApiTest' => 0.70,
                 ],
                 'database/migrations/' => [
                     'Tests\\Unit\\DataIntegrityTest' => 0.90,
                     'Tests\\Unit\\IntegrationTest' => 0.70,
+                    'Tests\\Unit\\EdgeCaseTest' => 0.50,
+                ],
+                'routes/api.php' => [
+                    'Tests\\Unit\\ApiTest' => 0.95,
                 ],
             ];
         }
