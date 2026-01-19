@@ -128,10 +128,10 @@ class IntegrationTest extends TestCase
             'user_id' => $user->id,
             'product_id' => $product->id,
             'quantity' => 3,
-            'total' => 45.00
+            'total_price' => 45.00
         ]);
         
-        $this->assertEquals(45.00, $order->total);
+        $this->assertEquals(45.00, $order->total_price);
     }
 
     public function test_cancelled_order_workflow(): void

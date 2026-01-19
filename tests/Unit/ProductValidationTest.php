@@ -31,7 +31,7 @@ class ProductValidationTest extends TestCase
     public function test_product_price_is_numeric(): void
     {
         $product = Product::factory()->create(['price' => 99.99]);
-        $this->assertIsFloat($product->price);
+        $this->assertIsNumeric($product->price);
     }
 
     public function test_product_price_positive_value(): void

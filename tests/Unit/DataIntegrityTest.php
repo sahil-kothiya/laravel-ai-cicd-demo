@@ -146,10 +146,10 @@ class DataIntegrityTest extends TestCase
         $order = Order::factory()->create([
             'user_id' => $user->id,
             'product_id' => $product->id,
-            'total' => 123.45
+            'total_price' => 123.45
         ]);
         
-        $this->assertEquals(123.45, $order->fresh()->total);
+        $this->assertEquals(123.45, $order->fresh()->total_price);
     }
 
     public function test_status_enum_validation(): void

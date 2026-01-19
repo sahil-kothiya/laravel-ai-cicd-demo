@@ -3,8 +3,8 @@
 namespace Tests\Unit;
 
 use App\Models\Order;
-use App\Models\User;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -17,7 +17,7 @@ class OrderValidationTest extends TestCase
         $user = User::factory()->create();
         $product = Product::factory()->create();
         $order = Order::factory()->create(['user_id' => $user->id, 'product_id' => $product->id]);
-        
+
         $this->assertEquals($user->id, $order->user_id);
     }
 
@@ -26,7 +26,7 @@ class OrderValidationTest extends TestCase
         $user = User::factory()->create();
         $product = Product::factory()->create();
         $order = Order::factory()->create(['user_id' => $user->id, 'product_id' => $product->id]);
-        
+
         $this->assertEquals($product->id, $order->product_id);
     }
 
@@ -35,7 +35,7 @@ class OrderValidationTest extends TestCase
         $user = User::factory()->create();
         $product = Product::factory()->create();
         $order = Order::factory()->create(['user_id' => $user->id, 'product_id' => $product->id, 'quantity' => 5]);
-        
+
         $this->assertGreaterThan(0, $order->quantity);
     }
 
@@ -44,7 +44,7 @@ class OrderValidationTest extends TestCase
         $user = User::factory()->create();
         $product = Product::factory()->create();
         $order = Order::factory()->create(['user_id' => $user->id, 'product_id' => $product->id, 'quantity' => 3]);
-        
+
         $this->assertIsInt($order->quantity);
     }
 
@@ -56,10 +56,10 @@ class OrderValidationTest extends TestCase
             'user_id' => $user->id,
             'product_id' => $product->id,
             'quantity' => 2,
-            'total' => 20.00
+            'total_price' => 20.00,
         ]);
-        
-        $this->assertEquals(20.00, $order->total);
+
+        $this->assertEquals(20.00, $order->total_price);
     }
 
     public function test_order_status_pending(): void
@@ -69,9 +69,9 @@ class OrderValidationTest extends TestCase
         $order = Order::factory()->create([
             'user_id' => $user->id,
             'product_id' => $product->id,
-            'status' => 'pending'
+            'status' => 'pending',
         ]);
-        
+
         $this->assertEquals('pending', $order->status);
     }
 
@@ -82,9 +82,9 @@ class OrderValidationTest extends TestCase
         $order = Order::factory()->create([
             'user_id' => $user->id,
             'product_id' => $product->id,
-            'status' => 'completed'
+            'status' => 'completed',
         ]);
-        
+
         $this->assertEquals('completed', $order->status);
     }
 
@@ -95,9 +95,9 @@ class OrderValidationTest extends TestCase
         $order = Order::factory()->create([
             'user_id' => $user->id,
             'product_id' => $product->id,
-            'status' => 'cancelled'
+            'status' => 'cancelled',
         ]);
-        
+
         $this->assertEquals('cancelled', $order->status);
     }
 
@@ -106,7 +106,7 @@ class OrderValidationTest extends TestCase
         $user = User::factory()->create();
         $product = Product::factory()->create();
         $order = Order::factory()->create(['user_id' => $user->id, 'product_id' => $product->id]);
-        
+
         $this->assertNotNull($order->order_number);
     }
 
@@ -115,7 +115,7 @@ class OrderValidationTest extends TestCase
         $user = User::factory()->create();
         $product = Product::factory()->create();
         $order = Order::factory()->create(['user_id' => $user->id, 'product_id' => $product->id]);
-        
+
         $this->assertNotNull($order->created_at);
         $this->assertNotNull($order->updated_at);
     }
@@ -128,9 +128,9 @@ class OrderValidationTest extends TestCase
             'user_id' => $user->id,
             'product_id' => $product->id,
             'status' => 'pending',
-            'processed_at' => null
+            'processed_at' => null,
         ]);
-        
+
         $this->assertNull($order->processed_at);
     }
 
@@ -142,9 +142,9 @@ class OrderValidationTest extends TestCase
             'user_id' => $user->id,
             'product_id' => $product->id,
             'status' => 'completed',
-            'processed_at' => now()
+            'processed_at' => now(),
         ]);
-        
+
         $this->assertNotNull($order->processed_at);
     }
 
@@ -152,11 +152,11 @@ class OrderValidationTest extends TestCase
     {
         $user = User::factory()->create();
         $products = Product::factory()->count(3)->create();
-        
+
         foreach ($products as $product) {
             Order::factory()->create(['user_id' => $user->id, 'product_id' => $product->id]);
         }
-        
+
         $this->assertEquals(3, $user->orders()->count());
     }
 
@@ -164,11 +164,11 @@ class OrderValidationTest extends TestCase
     {
         $users = User::factory()->count(2)->create();
         $product = Product::factory()->create();
-        
+
         foreach ($users as $user) {
             Order::factory()->create(['user_id' => $user->id, 'product_id' => $product->id]);
         }
-        
+
         $this->assertEquals(2, $product->orders()->count());
     }
 
@@ -179,9 +179,9 @@ class OrderValidationTest extends TestCase
         $order = Order::factory()->create([
             'user_id' => $user->id,
             'product_id' => $product->id,
-            'total' => 25.50
+            'total_price' => 25.50,
         ]);
-        
-        $this->assertGreaterThan(0, $order->total);
+
+        $this->assertGreaterThan(0, $order->total_price);
     }
 }
