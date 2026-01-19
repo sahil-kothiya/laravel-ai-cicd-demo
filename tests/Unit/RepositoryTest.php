@@ -2,21 +2,23 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
-use App\Repositories\UserRepository;
-use App\Repositories\ProductRepository;
-use App\Repositories\OrderRepository;
-use App\Models\User;
-use App\Models\Product;
 use App\Models\Order;
+use App\Models\Product;
+use App\Models\User;
+use App\Repositories\OrderRepository;
+use App\Repositories\ProductRepository;
+use App\Repositories\UserRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class RepositoryTest extends TestCase
 {
     use RefreshDatabase;
 
     protected $userRepo;
+
     protected $productRepo;
+
     protected $orderRepo;
 
     protected function setUp(): void
