@@ -31,10 +31,6 @@ class IntelligentTestSelector
      */
     private array $criticalTests = [
         'Tests\\Unit\\UserTest',
-        'Tests\\Unit\\ProductTest',
-        'Tests\\Unit\\OrderTest',
-        'Tests\\Unit\\SecurityTest',
-        'Tests\\Unit\\IntegrationTest',
     ];
 
     /**

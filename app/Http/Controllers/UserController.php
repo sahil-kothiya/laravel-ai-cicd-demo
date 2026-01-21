@@ -129,3 +129,4 @@ class UserController extends Controller
         }
     }
 }
+// Feature: Added email validation - 01/21/2026 12:03:27

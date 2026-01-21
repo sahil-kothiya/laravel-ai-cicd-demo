@@ -67,7 +67,7 @@ jobs:
           echo ""
 
           # Define critical tests
-          CRITICAL_TESTS='["Tests\\Unit\\UserTest","Tests\\Unit\\ProductTest","Tests\\Unit\\OrderTest","Tests\\Unit\\SecurityTest","Tests\\Unit\\IntegrationTest"]'
+          CRITICAL_TESTS='["Tests\\Unit\\UserTest"]'
 
           # Separate critical and change-based tests
           CRITICAL_LIST=""

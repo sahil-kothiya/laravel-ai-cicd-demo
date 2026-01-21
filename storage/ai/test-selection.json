@@ -1,11 +1,13 @@
 {
-    "timestamp": "2026-01-21T06:29:34+00:00",
+    "timestamp": "2026-01-21T06:37:07+00:00",
     "tests": [
         "Tests\\Unit\\UserTest",
         "Tests\\Unit\\ProductTest",
-        "Tests\\Unit\\OrderTest",
-        "Tests\\Unit\\SecurityTest",
-        "Tests\\Unit\\IntegrationTest"
+        "Tests\\Unit\\ProductComprehensiveTest",
+        "Tests\\Unit\\UserComprehensiveTest",
+        "Tests\\Unit\\ProductValidationTest",
+        "Tests\\Unit\\UserValidationTest",
+        "Tests\\Unit\\ApiTest"
     ],
     "metadata": [
         {
@@ -17,31 +19,45 @@
         },
         {
             "test": "Tests\\Unit\\ProductTest",
-            "reason": "critical",
-            "confidence": 1,
-            "impact_score": 1,
-            "file": "N\/A"
+            "reason": "coverage",
+            "confidence": 0.95,
+            "file": "app\/Http\/Controllers\/ProductController.php",
+            "impact_score": 1
         },
         {
-            "test": "Tests\\Unit\\OrderTest",
-            "reason": "critical",
-            "confidence": 1,
-            "impact_score": 1,
-            "file": "N\/A"
+            "test": "Tests\\Unit\\ProductComprehensiveTest",
+            "reason": "coverage",
+            "confidence": 0.95,
+            "file": "app\/Http\/Controllers\/ProductController.php",
+            "impact_score": 1
         },
         {
-            "test": "Tests\\Unit\\SecurityTest",
-            "reason": "critical",
-            "confidence": 1,
-            "impact_score": 1,
-            "file": "N\/A"
+            "test": "Tests\\Unit\\UserComprehensiveTest",
+            "reason": "coverage",
+            "confidence": 0.95,
+            "file": "app\/Http\/Controllers\/UserController.php",
+            "impact_score": 1
         },
         {
-            "test": "Tests\\Unit\\IntegrationTest",
-            "reason": "critical",
-            "confidence": 1,
-            "impact_score": 1,
-            "file": "N\/A"
+            "test": "Tests\\Unit\\ProductValidationTest",
+            "reason": "coverage",
+            "confidence": 0.9,
+            "file": "app\/Http\/Controllers\/ProductController.php",
+            "impact_score": 0.99
+        },
+        {
+            "test": "Tests\\Unit\\UserValidationTest",
+            "reason": "coverage",
+            "confidence": 0.9,
+            "file": "app\/Http\/Controllers\/UserController.php",
+            "impact_score": 0.99
+        },
+        {
+            "test": "Tests\\Unit\\ApiTest",
+            "reason": "coverage",
+            "confidence": 0.85,
+            "file": "app\/Http\/Controllers\/ProductController.php",
+            "impact_score": 0.94
         }
     ]
 }
