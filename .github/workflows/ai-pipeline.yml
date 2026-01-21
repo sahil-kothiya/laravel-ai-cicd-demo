@@ -82,7 +82,9 @@ jobs:
           done
 
           # Get full metadata with reasons
-          METADATA=$(echo $RESULT | jq -c '.metadata')
+          DIRECT=$(echo $RESULT | jq -r '.breakdown.direct_mapping')
+          COVERAGE=$(echo $RESULT | jq -r '.breakdown.coverage')
+          DEPENDENCY=$(echo $RESULT | jq -r '.breakdown.dependency')
 
           # Display Critical Tests (Always Run) - RED
           echo ""
@@ -107,16 +109,24 @@ jobs:
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             echo "These tests were selected based on your code changes:"
             echo ""
+            echo "Selection Breakdown:"
+            echo "  🎯 Direct Mapping: $DIRECT tests (file directly matches test)"
+            echo "  📊 Coverage Based: $COVERAGE tests (dependent code areas)"
+            echo "  🔗 Dependencies: $DEPENDENCY tests (uses changed components)"
+            echo ""
             
-            # Show tests with their selection reasons
-            echo "$RESULT" | jq -r '.metadata[] | select(.reason != "critical") | "  ✅ \(.test) [\(.reason | ascii_upcase)] - Confidence: \(.confidence * 100 | floor)%"'
+            # Show the actual tests
+            if [ -f /tmp/test_split.txt ]; then
+              grep "^CHANGED::" /tmp/test_split.txt | sed 's/CHANGED:://' | while read -r test; do
+                echo "  ✅ $test"
+              done
+            fi
             
             echo ""
-            echo "Selection Types:"
-            echo "  • DIRECT_MAPPING = Test directly corresponds to changed file"
-            echo "  • COVERAGE = Test covers code that depends on changed file"
-            echo "  • DEPENDENCY = Test uses components from changed file"
-            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo "💡 Why these tests?"
+            echo "  • Tests map to changed files through code analysis"
+            echo "  • AI examines dependencies and code coverage"
+            echo "  • Higher confidence = stronger code relationship"
             echo "::endgroup::"
           fi
 
