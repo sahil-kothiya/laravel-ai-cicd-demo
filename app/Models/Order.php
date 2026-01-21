@@ -9,7 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Order extends Model
 {
     use HasFactory, SoftDeletes;
-    
+
+    // echo "Demo update" --- IGNORE ---
+
     protected $fillable = [
         'user_id',
         'product_id',
@@ -22,7 +24,7 @@ class Order extends Model
         'ordered_at',
         'processed_at',
     ];
-    
+
     protected $casts = [
         'quantity' => 'integer',
         'unit_price' => 'decimal:2',
@@ -30,7 +32,7 @@ class Order extends Model
         'ordered_at' => 'datetime',
         'processed_at' => 'datetime',
     ];
-    
+
     /**
      * Get the user that owns the order
      */
@@ -38,7 +40,7 @@ class Order extends Model
     {
         return $this->belongsTo(User::class);
     }
-    
+
     /**
      * Get the product for this order
      */
@@ -46,7 +48,7 @@ class Order extends Model
     {
         return $this->belongsTo(Product::class);
     }
-    
+
     /**
      * Scope for pending orders
      */
@@ -54,7 +56,7 @@ class Order extends Model
     {
         return $query->where('status', 'pending');
     }
-    
+
     /**
      * Scope for completed orders
      */
