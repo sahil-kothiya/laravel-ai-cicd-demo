@@ -9,7 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Product extends Model
 {
     use HasFactory, SoftDeletes;
-    
+
+    // echo "Testing Order Model"; --- IGNORE ---
+
     protected $fillable = [
         'name',
         'description',
@@ -20,13 +22,13 @@ class Product extends Model
         'status',
         'is_featured',
     ];
-    
+
     protected $casts = [
         'price' => 'decimal:2',
         'stock' => 'integer',
         'is_featured' => 'boolean',
     ];
-    
+
     /**
      * Get orders for this product
      */
@@ -34,7 +36,7 @@ class Product extends Model
     {
         return $this->hasMany(Order::class);
     }
-    
+
     /**
      * Scope for active products
      */
@@ -42,7 +44,7 @@ class Product extends Model
     {
         return $query->where('status', 'active');
     }
-    
+
     /**
      * Scope for featured products
      */
