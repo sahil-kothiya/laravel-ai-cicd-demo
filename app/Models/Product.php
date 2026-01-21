@@ -10,8 +10,6 @@ class Product extends Model
 {
     use HasFactory, SoftDeletes;
 
-    // echo "Testing Order Model"; --- IGNORE ---
-
     protected $fillable = [
         'name',
         'description',
