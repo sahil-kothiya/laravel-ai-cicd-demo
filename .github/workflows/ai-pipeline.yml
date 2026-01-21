@@ -66,36 +66,62 @@ jobs:
           echo "   Reduction: $REDUCTION%"
           echo ""
 
-          # Display test breakdown
-          echo "::group::📋 Test Selection Breakdown"
-          echo "┌─────────────────────────────────────────────────┐"
-          echo "│  🔴 Critical Tests (Always Run): $CRITICAL_COUNT"
-          echo "│  🎯 Direct Mapping (Code Changes): $DIRECT_COUNT"
-          echo "│  📊 Coverage Based (Dependencies): $COVERAGE_COUNT"
-          echo "└─────────────────────────────────────────────────┘"
-          echo "::endgroup::"
+          # Define critical tests
+          CRITICAL_TESTS='["Tests\\Unit\\UserTest","Tests\\Unit\\ProductTest","Tests\\Unit\\OrderTest","Tests\\Unit\\SecurityTest","Tests\\Unit\\IntegrationTest"]'
 
-          # Display selected tests list
-          echo "::group::✅ Tests That Will Run ($COUNT total)"
+          # Separate critical and change-based tests
+          CRITICAL_LIST=""
+          CHANGE_BASED_LIST=""
+
           echo "$FULL_PATHS" | jq -r '.[]' | while read -r test; do
-            # Determine test type
-            if echo "$RESULT" | jq -r '.breakdown.critical' | grep -q "^[1-9]"; then
-              # Check if this is a critical test
-              CRITICAL_TESTS='["Tests\\Unit\\UserTest","Tests\\Unit\\ProductTest","Tests\\Unit\\OrderTest","Tests\\Unit\\SecurityTest","Tests\\Unit\\IntegrationTest"]'
-              if echo "$CRITICAL_TESTS" | jq -r '.[]' | grep -q "^${test}$"; then
-                echo "  🔴 $test (Critical - Always Runs)"
-              else
-                echo "  🎯 $test (Selected by AI)"
-              fi
+            if echo "$CRITICAL_TESTS" | jq -r '.[]' | grep -q "^${test}$"; then
+              echo "CRITICAL::$test" >> /tmp/test_split.txt
             else
-              echo "  ✓ $test"
+              echo "CHANGED::$test" >> /tmp/test_split.txt
             fi
           done
+
+          # Display Critical Tests (Always Run) - RED
+          echo ""
+          echo "::group::🔴 CRITICAL TESTS (Always Run) - $CRITICAL_COUNT tests"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "These tests ALWAYS run regardless of code changes:"
+          echo ""
+          if [ -f /tmp/test_split.txt ]; then
+            grep "^CRITICAL::" /tmp/test_split.txt | sed 's/CRITICAL:://' | while read -r test; do
+              echo "  🔴 $test"
+            done
+          fi
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
           echo "::endgroup::"
 
-          # Highlight the selection
+          # Display Change-Based Tests - GREEN
+          CHANGE_COUNT=$((COUNT - CRITICAL_COUNT))
+          if [ $CHANGE_COUNT -gt 0 ]; then
+            echo ""
+            echo "::group::✅ CHANGE-BASED TESTS (Selected by AI) - $CHANGE_COUNT tests"
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo "These tests were selected based on your code changes:"
+            echo ""
+            if [ -f /tmp/test_split.txt ]; then
+              grep "^CHANGED::" /tmp/test_split.txt | sed 's/CHANGED:://' | while read -r test; do
+                echo "  ✅ $test"
+              done
+            fi
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo "::endgroup::"
+          fi
+
+          # Clean up
+          rm -f /tmp/test_split.txt
+
+          # Summary with color-coded annotations
           echo ""
-          echo "::notice title=AI Test Selection::Selected $COUNT out of $TOTAL tests ($REDUCTION% reduction) - Critical: $CRITICAL_COUNT, Changed: $((DIRECT_COUNT + COVERAGE_COUNT))"
+          echo "::notice title=🔴 Critical Tests (Always Run)::$CRITICAL_COUNT tests will always run for safety"
+          if [ $CHANGE_COUNT -gt 0 ]; then
+            echo "::notice title=✅ Change-Based Tests (AI Selected)::$CHANGE_COUNT tests selected based on code changes"
+          fi
+          echo "::notice title=📊 Total Reduction::Running $COUNT out of $TOTAL tests ($REDUCTION% reduction)"
 
           # Save for next step
           echo "selected_tests=$TESTS" >> $GITHUB_OUTPUT
@@ -107,24 +133,33 @@ jobs:
           TESTS="${{ steps.ai_select.outputs.selected_tests }}"
           COUNT="${{ steps.ai_select.outputs.test_count }}"
 
-          echo "::group::🎯 Running $COUNT AI-selected tests"
-          echo "Tests to execute: $TESTS"
-          echo "::endgroup::"
+          echo ""
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "  🧪 EXECUTING $COUNT TESTS"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo ""
+          echo "Tests: $TESTS"
           echo ""
 
           if [ -z "$TESTS" ] || [ "$TESTS" = "" ] || [ "$TESTS" = "null" ]; then
             echo "::warning title=No Tests Selected::No specific tests selected - running smoke test only"
             vendor/bin/phpunit --filter=test_user_creation
           else
-            # Convert comma-separated list to PHPUnit filter (use regex OR pattern)
+            # Convert comma-separated list to PHPUnit filter
             FILTER=$(echo "$TESTS" | sed 's/,/|/g')
-            echo "::notice title=Test Execution::Executing $COUNT tests with filter: $FILTER"
+            echo "::notice title=🧪 Test Execution::Executing $COUNT tests with filter: $FILTER"
             echo ""
+            
+            # Run tests with testdox for readable output
+            echo "::group::📝 Test Execution Details"
             vendor/bin/phpunit --filter="$FILTER" --testdox
+            echo "::endgroup::"
           fi
 
           echo ""
-          echo "::notice title=Tests Passed::✅ All $COUNT AI-selected tests passed successfully!"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "::notice title=✅ Tests Passed::All $COUNT AI-selected tests passed successfully!"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
       - name: ⏱️ Calculate AI time savings
         if: always()
