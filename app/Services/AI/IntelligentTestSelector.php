@@ -112,8 +112,13 @@ class IntelligentTestSelector
             // Get diff from base branch
             $result = Process::run("git diff --name-only origin/{$baseBranch}...HEAD");
 
-            if ($result->failed()) {
-                // Fallback to local changes
+            if ($result->failed() || empty(trim($result->output()))) {
+                // Fallback to comparing with previous commit
+                $result = Process::run('git diff --name-only HEAD~1');
+            }
+
+            if ($result->failed() || empty(trim($result->output()))) {
+                // Fallback to uncommitted local changes
                 $result = Process::run('git diff --name-only HEAD');
             }
 
@@ -175,23 +180,25 @@ class IntelligentTestSelector
      * Find tests that directly correspond to a file
      *
      * Examples:
-     * - app/Http/Controllers/UserController.php → Tests/Feature/UserControllerTest.php
+     * - app/Http/Controllers/UserController.php → Tests/Unit/UserTest.php
      * - app/Models/User.php → Tests/Unit/UserTest.php
      */
     private function findDirectTests(string $file): Collection
     {
         $tests = collect();
 
-        // Controller → Feature Test
+        // Controller → Unit Test (map to related entity test, not controller test)
         if (str_contains($file, 'Controllers/')) {
-            $testName = basename($file, '.php').'Test';
-            $testPath = "Tests\\Feature\\{$testName}";
+            // Extract entity name: UserController -> User
+            $controllerName = basename($file, '.php');
+            $entityName = str_replace('Controller', '', $controllerName);
+            $testPath = "Tests\\Unit\\{$entityName}Test";
 
             if ($this->testExists($testPath)) {
                 $tests->push([
                     'test' => $testPath,
                     'reason' => 'direct_mapping',
-                    'confidence' => 0.95,
+                    'confidence' => 0.90,
                     'file' => $file,
                 ]);
             }
@@ -212,6 +219,22 @@ class IntelligentTestSelector
             }
         }
 
+        // Service → Unit Test
+        if (str_contains($file, 'Services/')) {
+            $serviceName = basename($file, '.php');
+            $entityName = str_replace('Service', '', $serviceName);
+            $testPath = "Tests\\Unit\\{$entityName}Test";
+
+            if ($this->testExists($testPath)) {
+                $tests->push([
+                    'test' => $testPath,
+                    'reason' => 'direct_mapping',
+                    'confidence' => 0.90,
+                    'file' => $file,
+                ]);
+            }
+        }
+
         return $tests;
     }
 
@@ -227,15 +250,8 @@ class IntelligentTestSelector
 
         $dependencies = [];
 
-        // Example: If User model changes, UserController tests may be affected
-        if (str_contains($file, 'Models/User.php')) {
-            $dependencies[] = [
-                'test' => 'Tests\\Feature\\UserControllerTest',
-                'reason' => 'dependency',
-                'confidence' => 0.70,
-                'file' => $file,
-            ];
-        }
+        // Example: If User model changes, related tests may be affected
+        // For now, rely on the coverage mappings instead of hardcoded dependencies
 
         return collect($dependencies);
     }
@@ -431,9 +447,14 @@ class IntelligentTestSelector
      */
     private function testExists(string $testPath): bool
     {
-        // In production, check if class exists
-        // For demo, simulate with common test patterns
-        return true;
+        // Convert namespace to file path
+        // Tests\Feature\UserControllerTest -> tests/Feature/UserControllerTest.php
+        // Tests\Unit\UserTest -> tests/Unit/UserTest.php
+        $filePath = str_replace('\\', '/', $testPath);
+        $filePath = str_replace('Tests/', 'tests/', $filePath);
+        $filePath = base_path($filePath.'.php');
+
+        return file_exists($filePath);
     }
 
     /**
@@ -476,12 +497,21 @@ class IntelligentTestSelector
 
         $estimatedTime = $this->estimateTimeSavings($totalTests, $selectedCount);
 
+        // Convert test names to PHPUnit-compatible format (just class names)
+        $phpunitTests = $selectedTests->map(function ($test) {
+            // Extract class name from full path: Tests\\Unit\\UserTest -> UserTest
+            $parts = explode('\\', $test['test']);
+
+            return end($parts);
+        })->unique()->values()->toArray();
+
         return [
             'total_tests' => $totalTests,
             'selected_tests' => $selectedCount,
             'reduction_percentage' => $reduction,
             'estimated_time_savings' => $estimatedTime,
-            'tests' => $selectedTests->pluck('test')->toArray(),
+            'tests' => $phpunitTests,  // Now returns just class names like "UserTest"
+            'full_test_paths' => $selectedTests->pluck('test')->toArray(),  // Keep full paths for reference
             'breakdown' => [
                 'critical' => $selectedTests->where('reason', 'critical')->count(),
                 'direct_mapping' => $selectedTests->where('reason', 'direct_mapping')->count(),

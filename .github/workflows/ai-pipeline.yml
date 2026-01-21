@@ -5,39 +5,39 @@ name: AI-Powered CI/CD (NEW WAY)
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   ai-smart-testing:
     name: "🚀 AI Smart Testing"
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Need history for AI analysis
-      
+          fetch-depth: 0 # Need history for AI analysis
+
       - name: 🐘 Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
+          php-version: "8.2"
           extensions: mbstring, xml, ctype, json
           coverage: none
-      
+
       - name: 📦 Install dependencies
         run: composer install --prefer-dist --no-progress --no-interaction
-      
+
       - name: 📋 Setup Laravel
         run: |
           cp .env.example .env
           php artisan key:generate
-      
+
       - name: ⏱️ Start timer
         run: echo "START_TIME=$(date +%s)" >> $GITHUB_ENV
-      
+
       - name: 🤖 AI Test Selection
         id: ai_select
         run: |
@@ -46,49 +46,86 @@ jobs:
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
           echo ""
           echo "🧠 Analyzing code changes..."
-          
+
           # Run AI test selector
           RESULT=$(php artisan ai:select-tests --json)
-          
+
           # Extract selected tests
           TESTS=$(echo $RESULT | jq -r '.tests | join(",")')
           COUNT=$(echo $RESULT | jq -r '.selected_tests')
           TOTAL=$(echo $RESULT | jq -r '.total_tests')
           REDUCTION=$(echo $RESULT | jq -r '.reduction_percentage')
-          
+          CRITICAL_COUNT=$(echo $RESULT | jq -r '.breakdown.critical')
+          DIRECT_COUNT=$(echo $RESULT | jq -r '.breakdown.direct_mapping')
+          COVERAGE_COUNT=$(echo $RESULT | jq -r '.breakdown.coverage')
+          FULL_PATHS=$(echo $RESULT | jq -r '.full_test_paths')
+
           echo "📊 Analysis Complete:"
           echo "   Total Tests: $TOTAL"
           echo "   Selected Tests: $COUNT"
           echo "   Reduction: $REDUCTION%"
           echo ""
-          
+
+          # Display test breakdown
+          echo "::group::📋 Test Selection Breakdown"
+          echo "┌─────────────────────────────────────────────────┐"
+          echo "│  🔴 Critical Tests (Always Run): $CRITICAL_COUNT"
+          echo "│  🎯 Direct Mapping (Code Changes): $DIRECT_COUNT"
+          echo "│  📊 Coverage Based (Dependencies): $COVERAGE_COUNT"
+          echo "└─────────────────────────────────────────────────┘"
+          echo "::endgroup::"
+
+          # Display selected tests list
+          echo "::group::✅ Tests That Will Run ($COUNT total)"
+          echo "$FULL_PATHS" | jq -r '.[]' | while read -r test; do
+            # Determine test type
+            if echo "$RESULT" | jq -r '.breakdown.critical' | grep -q "^[1-9]"; then
+              # Check if this is a critical test
+              CRITICAL_TESTS='["Tests\\Unit\\UserTest","Tests\\Unit\\ProductTest","Tests\\Unit\\OrderTest","Tests\\Unit\\SecurityTest","Tests\\Unit\\IntegrationTest"]'
+              if echo "$CRITICAL_TESTS" | jq -r '.[]' | grep -q "^${test}$"; then
+                echo "  🔴 $test (Critical - Always Runs)"
+              else
+                echo "  🎯 $test (Selected by AI)"
+              fi
+            else
+              echo "  ✓ $test"
+            fi
+          done
+          echo "::endgroup::"
+
+          # Highlight the selection
+          echo ""
+          echo "::notice title=AI Test Selection::Selected $COUNT out of $TOTAL tests ($REDUCTION% reduction) - Critical: $CRITICAL_COUNT, Changed: $((DIRECT_COUNT + COVERAGE_COUNT))"
+
           # Save for next step
           echo "selected_tests=$TESTS" >> $GITHUB_OUTPUT
           echo "test_count=$COUNT" >> $GITHUB_OUTPUT
           echo "reduction=$REDUCTION" >> $GITHUB_OUTPUT
-      
+
       - name: 🧪 Run ONLY Selected Tests (AI-Optimized)
         run: |
           TESTS="${{ steps.ai_select.outputs.selected_tests }}"
           COUNT="${{ steps.ai_select.outputs.test_count }}"
-          
-          echo "🎯 Running $COUNT AI-selected tests..."
+
+          echo "::group::🎯 Running $COUNT AI-selected tests"
+          echo "Tests to execute: $TESTS"
+          echo "::endgroup::"
           echo ""
-          
-          if [ -z "$TESTS" ] || [ "$TESTS" = "" ]; then
-            echo "⚡ No specific tests selected - running smoke test only"
+
+          if [ -z "$TESTS" ] || [ "$TESTS" = "" ] || [ "$TESTS" = "null" ]; then
+            echo "::warning title=No Tests Selected::No specific tests selected - running smoke test only"
             vendor/bin/phpunit --filter=test_user_creation
           else
-            echo "✅ Selected tests: $TESTS"
+            # Convert comma-separated list to PHPUnit filter (use regex OR pattern)
+            FILTER=$(echo "$TESTS" | sed 's/,/|/g')
+            echo "::notice title=Test Execution::Executing $COUNT tests with filter: $FILTER"
             echo ""
-            # Convert comma-separated list to PHPUnit filter
-            FILTER=$(echo "$TESTS" | tr ',' '|')
-            vendor/bin/phpunit --filter="$FILTER"
+            vendor/bin/phpunit --filter="$FILTER" --testdox
           fi
-          
+
           echo ""
-          echo "✅ AI-selected tests passed!"
-      
+          echo "::notice title=Tests Passed::✅ All $COUNT AI-selected tests passed successfully!"
+
       - name: ⏱️ Calculate AI time savings
         if: always()
         run: |
@@ -96,7 +133,7 @@ jobs:
           DURATION=$((END_TIME - START_TIME))
           MINUTES=$((DURATION / 60))
           SECONDS=$((DURATION % 60))
-          
+
           echo ""
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
           echo "  ⚡ AI-Optimized Results"
@@ -107,4 +144,6 @@ jobs:
           echo "  💸 Estimated Cost: \$0.02"
           echo "  😊 Developer Experience: Excellent!"
           echo "  🎯 Result: 3-5x FASTER than traditional!"
-          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"          
+          # Summary annotation
+          echo "::notice title=Pipeline Complete::⚡ AI Pipeline completed in ${MINUTES}m ${SECONDS}s with ${{ steps.ai_select.outputs.reduction }}% test reduction"
