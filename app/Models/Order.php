@@ -10,8 +10,6 @@ class Order extends Model
 {
     use HasFactory, SoftDeletes;
 
-    // echo "Demo update" --- IGNORE ---
-
     protected $fillable = [
         'user_id',
         'product_id',
