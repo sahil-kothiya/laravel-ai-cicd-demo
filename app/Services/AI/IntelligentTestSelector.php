@@ -26,8 +26,8 @@ class IntelligentTestSelector
     private array $config;
 
     /**
-     * Critical tests that should run for risky changes
-     * For documentation/config-only changes, these can be skipped
+     * Critical tests that ALWAYS run
+     * These tests provide essential safety checks regardless of code changes
      */
     private array $criticalTests = [
         'Tests\\Unit\\UserTest',
@@ -65,22 +65,24 @@ class IntelligentTestSelector
         // Step 1: Analyze Git changes
         $changedFiles = $this->analyzeGitDiff($baseBranch);
 
+        // ALWAYS start with critical tests - they run no matter what
+        $selectedTests = collect();
+
+        if ($this->config['always_run_critical']) {
+            $selectedTests = $this->mergeCriticalTests(collect());
+        }
+
+        // If no changes detected, return only critical tests
         if ($changedFiles->isEmpty()) {
-            return $this->getFallbackTests();
+            return $selectedTests->isNotEmpty() ? $selectedTests : $this->getFallbackTests();
         }
 
         // Check if only documentation/config files changed
         $onlyDocsOrConfig = $this->onlyDocsOrConfigChanged($changedFiles);
 
         if ($onlyDocsOrConfig) {
-            // For docs-only changes, run minimal smoke tests
-            return collect([[
-                'test' => 'Tests\\Unit\\UserTest::test_user_creation',
-                'reason' => 'smoke_test',
-                'confidence' => 1.0,
-                'impact_score' => 0.5,
-                'file' => 'smoke',
-            ]]);
+            // For docs-only changes, still run critical tests
+            return $selectedTests;
         }
 
         // Step 2: Map changed files to affected tests
@@ -90,13 +92,13 @@ class IntelligentTestSelector
         $scoredTests = $this->calculateImpactScores($affectedTests, $changedFiles);
 
         // Step 4: Select high-impact tests
-        $selectedTests = $this->selectHighImpactTests($scoredTests);
+        $changeBasedTests = $this->selectHighImpactTests($scoredTests);
 
-        // Step 5: Include critical tests only if code changes are risky
-        $hasRiskyChanges = $this->hasRiskyChanges($changedFiles);
-        if ($this->config['always_run_critical'] && $hasRiskyChanges) {
-            $selectedTests = $this->mergeCriticalTests($selectedTests);
-        }
+        // Step 5: Merge critical tests with change-based tests
+        $selectedTests = $selectedTests
+            ->merge($changeBasedTests)
+            ->unique('test')
+            ->values();
 
         return $selectedTests;
     }
