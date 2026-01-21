@@ -1,13 +1,12 @@
 {
-    "timestamp": "2026-01-21T06:37:07+00:00",
+    "timestamp": "2026-01-21T06:46:11+00:00",
     "tests": [
         "Tests\\Unit\\UserTest",
-        "Tests\\Unit\\ProductTest",
-        "Tests\\Unit\\ProductComprehensiveTest",
-        "Tests\\Unit\\UserComprehensiveTest",
-        "Tests\\Unit\\ProductValidationTest",
-        "Tests\\Unit\\UserValidationTest",
-        "Tests\\Unit\\ApiTest"
+        "Tests\\Unit\\OrderTest",
+        "Tests\\Unit\\OrderValidationTest",
+        "Tests\\Unit\\OrderComprehensiveTest",
+        "Tests\\Unit\\ServiceLayerTest",
+        "Tests\\Unit\\RepositoryTest"
     ],
     "metadata": [
         {
@@ -18,46 +17,39 @@
             "file": "N\/A"
         },
         {
-            "test": "Tests\\Unit\\ProductTest",
-            "reason": "coverage",
+            "test": "Tests\\Unit\\OrderTest",
+            "reason": "direct_mapping",
             "confidence": 0.95,
-            "file": "app\/Http\/Controllers\/ProductController.php",
-            "impact_score": 1
-        },
-        {
-            "test": "Tests\\Unit\\ProductComprehensiveTest",
-            "reason": "coverage",
-            "confidence": 0.95,
-            "file": "app\/Http\/Controllers\/ProductController.php",
-            "impact_score": 1
-        },
-        {
-            "test": "Tests\\Unit\\UserComprehensiveTest",
-            "reason": "coverage",
-            "confidence": 0.95,
-            "file": "app\/Http\/Controllers\/UserController.php",
-            "impact_score": 1
-        },
-        {
-            "test": "Tests\\Unit\\ProductValidationTest",
-            "reason": "coverage",
-            "confidence": 0.9,
-            "file": "app\/Http\/Controllers\/ProductController.php",
+            "file": "app\/Models\/Order.php",
             "impact_score": 0.99
         },
         {
-            "test": "Tests\\Unit\\UserValidationTest",
+            "test": "Tests\\Unit\\OrderValidationTest",
             "reason": "coverage",
-            "confidence": 0.9,
-            "file": "app\/Http\/Controllers\/UserController.php",
+            "confidence": 0.95,
+            "file": "app\/Models\/Order.php",
             "impact_score": 0.99
         },
         {
-            "test": "Tests\\Unit\\ApiTest",
+            "test": "Tests\\Unit\\OrderComprehensiveTest",
             "reason": "coverage",
-            "confidence": 0.85,
-            "file": "app\/Http\/Controllers\/ProductController.php",
-            "impact_score": 0.94
+            "confidence": 0.95,
+            "file": "app\/Models\/Order.php",
+            "impact_score": 0.99
+        },
+        {
+            "test": "Tests\\Unit\\ServiceLayerTest",
+            "reason": "coverage",
+            "confidence": 0.75,
+            "file": "app\/Models\/Order.php",
+            "impact_score": 0.79
+        },
+        {
+            "test": "Tests\\Unit\\RepositoryTest",
+            "reason": "coverage",
+            "confidence": 0.75,
+            "file": "app\/Models\/Order.php",
+            "impact_score": 0.79
         }
     ]
 }

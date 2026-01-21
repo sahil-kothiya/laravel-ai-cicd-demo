@@ -81,21 +81,25 @@ jobs:
             fi
           done
 
+          # Get full metadata with reasons
+          METADATA=$(echo $RESULT | jq -c '.metadata')
+
           # Display Critical Tests (Always Run) - RED
           echo ""
           echo "::group::🔴 CRITICAL TESTS (Always Run) - $CRITICAL_COUNT tests"
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
           echo "These tests ALWAYS run regardless of code changes:"
+          echo "Reason: Baseline safety checks for core functionality"
           echo ""
           if [ -f /tmp/test_split.txt ]; then
             grep "^CRITICAL::" /tmp/test_split.txt | sed 's/CRITICAL:://' | while read -r test; do
-              echo "  🔴 $test"
+              echo "  🔴 $test [CRITICAL - Always Runs]"
             done
           fi
           echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
           echo "::endgroup::"
 
-          # Display Change-Based Tests - GREEN
+          # Display Change-Based Tests - GREEN with reasons
           CHANGE_COUNT=$((COUNT - CRITICAL_COUNT))
           if [ $CHANGE_COUNT -gt 0 ]; then
             echo ""
@@ -103,11 +107,15 @@ jobs:
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             echo "These tests were selected based on your code changes:"
             echo ""
-            if [ -f /tmp/test_split.txt ]; then
-              grep "^CHANGED::" /tmp/test_split.txt | sed 's/CHANGED:://' | while read -r test; do
-                echo "  ✅ $test"
-              done
-            fi
+            
+            # Show tests with their selection reasons
+            echo "$RESULT" | jq -r '.metadata[] | select(.reason != "critical") | "  ✅ \(.test) [\(.reason | ascii_upcase)] - Confidence: \(.confidence * 100 | floor)%"'
+            
+            echo ""
+            echo "Selection Types:"
+            echo "  • DIRECT_MAPPING = Test directly corresponds to changed file"
+            echo "  • COVERAGE = Test covers code that depends on changed file"
+            echo "  • DEPENDENCY = Test uses components from changed file"
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             echo "::endgroup::"
           fi
@@ -115,11 +123,14 @@ jobs:
           # Clean up
           rm -f /tmp/test_split.txt
 
-          # Summary with color-coded annotations
+          # Summary with color-coded annotations and breakdown
           echo ""
           echo "::notice title=🔴 Critical Tests (Always Run)::$CRITICAL_COUNT tests will always run for safety"
           if [ $CHANGE_COUNT -gt 0 ]; then
-            echo "::notice title=✅ Change-Based Tests (AI Selected)::$CHANGE_COUNT tests selected based on code changes"
+            DIRECT=$(echo $RESULT | jq -r '.breakdown.direct_mapping')
+            COVERAGE=$(echo $RESULT | jq -r '.breakdown.coverage')
+            DEPENDENCY=$(echo $RESULT | jq -r '.breakdown.dependency')
+            echo "::notice title=✅ Change-Based Tests::$CHANGE_COUNT tests - Direct: $DIRECT, Coverage: $COVERAGE, Dependency: $DEPENDENCY"
           fi
           echo "::notice title=📊 Total Reduction::Running $COUNT out of $TOTAL tests ($REDUCTION% reduction)"
 

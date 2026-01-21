@@ -31,7 +31,7 @@ class AnalyzeTestsCommand extends Command
         $branch = $this->option('branch');
         $jsonOutput = $this->option('json');
 
-        if (!$jsonOutput) {
+        if (! $jsonOutput) {
             $this->info('🤖 AI Test Selector');
             $this->info('═══════════════════════════════════════');
             $this->newLine();
@@ -67,7 +67,7 @@ class AnalyzeTestsCommand extends Command
     private function displayReport(array $report, $selectedTests): void
     {
         $this->newLine();
-        
+
         // Results box
         $this->info('╔══════════════════════════════════════════════════════╗');
         $this->info('║           AI Test Selection Results                  ║');
@@ -75,8 +75,8 @@ class AnalyzeTestsCommand extends Command
         $this->info(sprintf('║ Changed Files: %-38s║', $this->getChangedFilesCount()));
         $this->info(sprintf('║ Total Tests: %-40s║', $report['total_tests']));
         $this->info(sprintf('║ Selected Tests: %-37s║', $report['selected_tests']));
-        $this->info(sprintf('║ Reduction: %-42s║', $report['reduction_percentage'] . '%'));
-        $this->info(sprintf('║ Estimated Time Savings: %-27s║', $report['estimated_time_savings'] . ' minutes'));
+        $this->info(sprintf('║ Reduction: %-42s║', $report['reduction_percentage'].'%'));
+        $this->info(sprintf('║ Estimated Time Savings: %-27s║', $report['estimated_time_savings'].' minutes'));
         $this->info('╚══════════════════════════════════════════════════════╝');
 
         $this->newLine();
@@ -90,19 +90,29 @@ class AnalyzeTestsCommand extends Command
 
         $this->newLine();
 
-        // Selected tests list
+        // Selected tests list with detailed reasons
         if ($selectedTests->isNotEmpty()) {
-            $this->info('✓ Selected Tests:');
+            $this->info('✓ Selected Tests with Selection Reasons:');
             foreach ($selectedTests->take(10) as $test) {
                 $reason = $this->getReasonEmoji($test['reason']);
+                $reasonText = $this->getReasonText($test['reason']);
                 $score = round($test['impact_score'] * 100);
-                $this->line("  {$reason} {$test['test']} (Score: {$score}%)");
+                $this->line("  {$reason} {$test['test']}");
+                $this->line("     └─ Reason: {$reasonText} (Confidence: {$score}%)");
             }
 
             if ($selectedTests->count() > 10) {
                 $remaining = $selectedTests->count() - 10;
                 $this->line("  ... and {$remaining} more tests");
             }
+
+            // Add legend
+            $this->newLine();
+            $this->info('📖 Selection Types Legend:');
+            $this->line('  🔴 CRITICAL = Always runs for baseline safety');
+            $this->line('  🎯 DIRECT_MAPPING = Test matches changed file directly');
+            $this->line('  📊 COVERAGE = Test covers dependent code');
+            $this->line('  🔗 DEPENDENCY = Test uses changed components');
         }
 
         $this->newLine();
@@ -112,11 +122,11 @@ class AnalyzeTestsCommand extends Command
         $optimizedTime = round(15 * ($report['selected_tests'] / $report['total_tests']), 1);
 
         $this->info('⚡ Performance Comparison:');
-        $this->line('  Traditional:  ' . str_repeat('█', 15) . " {$traditionalTime} min ({$report['total_tests']} tests)");
-        $this->line('  AI-Optimized: ' . str_repeat('█', max(1, (int)$optimizedTime)) . " {$optimizedTime} min ({$report['selected_tests']} tests)");
+        $this->line('  Traditional:  '.str_repeat('█', 15)." {$traditionalTime} min ({$report['total_tests']} tests)");
+        $this->line('  AI-Optimized: '.str_repeat('█', max(1, (int) $optimizedTime))." {$optimizedTime} min ({$report['selected_tests']} tests)");
 
         $this->newLine();
-        $this->info("💡 Tip: Run 'php artisan test --filter=" . $selectedTests->pluck('test')->first() . "' to execute selected tests");
+        $this->info("💡 Tip: Run 'php artisan test --filter=".$selectedTests->pluck('test')->first()."' to execute selected tests");
     }
 
     /**
@@ -124,12 +134,26 @@ class AnalyzeTestsCommand extends Command
      */
     private function getReasonEmoji(string $reason): string
     {
-        return match($reason) {
+        return match ($reason) {
             'critical' => '🔴',
             'direct_mapping' => '🎯',
             'coverage' => '📊',
             'dependency' => '🔗',
             default => '•',
+        };
+    }
+
+    /**
+     * Get human-readable text for test selection reason
+     */
+    private function getReasonText(string $reason): string
+    {
+        return match ($reason) {
+            'critical' => 'Critical test - always runs',
+            'direct_mapping' => 'Directly maps to changed file',
+            'coverage' => 'Covers dependent code areas',
+            'dependency' => 'Uses changed components',
+            default => 'Selected by AI',
         };
     }
 
@@ -143,7 +167,7 @@ class AnalyzeTestsCommand extends Command
             glob(base_path('tests/Unit/*Test.php')) ?: [],
             glob(base_path('tests/Feature/*Test.php')) ?: []
         );
-        
+
         $totalTests = 0;
         foreach ($testFiles as $file) {
             $content = file_get_contents($file);
@@ -151,7 +175,7 @@ class AnalyzeTestsCommand extends Command
             preg_match_all('/public function test_/', $content, $matches);
             $totalTests += count($matches[0] ?? []);
         }
-        
+
         return $totalTests > 0 ? $totalTests : 36; // Fallback to actual count
     }
 
@@ -162,6 +186,7 @@ class AnalyzeTestsCommand extends Command
     {
         try {
             $result = \Illuminate\Support\Facades\Process::run('git diff --name-only HEAD~1');
+
             return count(array_filter(explode("\n", $result->output())));
         } catch (\Exception $e) {
             return 0;
@@ -174,8 +199,8 @@ class AnalyzeTestsCommand extends Command
     private function saveSelection($selectedTests): void
     {
         $outputDir = storage_path('ai');
-        
-        if (!is_dir($outputDir)) {
+
+        if (! is_dir($outputDir)) {
             mkdir($outputDir, 0755, true);
         }
 
@@ -186,7 +211,7 @@ class AnalyzeTestsCommand extends Command
         ];
 
         file_put_contents(
-            $outputDir . '/test-selection.json',
+            $outputDir.'/test-selection.json',
             json_encode($data, JSON_PRETTY_PRINT)
         );
     }
