@@ -1,5 +1,7 @@
 # AI-Powered CI/CD Pipeline Demo
 
+TEst
+
 **Make your CI/CD 3-10x faster with intelligent test selection**
 
 [![GitHub Actions](https://img.shields.io/badge/GitHub-Actions-2088FF?style=flat&logo=githubactions&logoColor=white)](https://github.com)
@@ -13,12 +15,14 @@
 This project showcases a real-world Laravel application with two CI/CD pipelines running side-by-side:
 
 ### **Traditional Pipeline** (The Old Way) 😴
+
 - Runs **ALL 36 tests** on every commit
 - Takes 20-30 seconds per run
 - Runs tests 3 times for "thorough checking"
 - **Total: ~30 seconds** even for tiny changes
 
 ### **AI-Powered Pipeline** (The New Way) 🚀
+
 - Intelligently selects **only affected tests** (1-12 tests typically)
 - Runs in 5-10 seconds
 - **3-6x faster** than traditional approach
@@ -28,15 +32,16 @@ This project showcases a real-world Laravel application with two CI/CD pipelines
 
 ## 📊 Performance Comparison
 
-| Metric | Traditional CI/CD | AI-Powered CI/CD | Improvement |
-|--------|-------------------|------------------|-------------|
-| **Pipeline Time** | 20-30 seconds | 5-10 seconds | **3-6x faster** ⚡ |
-| **Tests Executed** | 36 tests × 3 = 108 | 1-12 tests | **70-97% fewer** 📉 |
-| **Cost per Run** | $0.15 | $0.02 | **87% cheaper** 💰 |
-| **Daily Cost** | $30 (200 runs) | $4 | **$26/day saved** 💵 |
-| **Feedback Speed** | Slow | Instant | **Better DX** 😊 |
+| Metric             | Traditional CI/CD  | AI-Powered CI/CD | Improvement          |
+| ------------------ | ------------------ | ---------------- | -------------------- |
+| **Pipeline Time**  | 20-30 seconds      | 5-10 seconds     | **3-6x faster** ⚡   |
+| **Tests Executed** | 36 tests × 3 = 108 | 1-12 tests       | **70-97% fewer** 📉  |
+| **Cost per Run**   | $0.15              | $0.02            | **87% cheaper** 💰   |
+| **Daily Cost**     | $30 (200 runs)     | $4               | **$26/day saved** 💵 |
+| **Feedback Speed** | Slow               | Instant          | **Better DX** 😊     |
 
 **For a team of 10 developers:**
+
 - Save **$5,200+/month** in CI/CD costs
 - Save **50-80 developer minutes/day** waiting for builds
 - Get feedback **3-6x faster**
@@ -102,6 +107,7 @@ git push
 ```
 
 Then go to **GitHub → Actions** and watch:
+
 - **Traditional Pipeline:** Runs for ~30 seconds, executes all tests
 - **AI Pipeline:** Runs for ~5-10 seconds, executes only UserTest
 
@@ -112,6 +118,7 @@ Then go to **GitHub → Actions** and watch:
 ### 1. **AI Failure Prediction**
 
 Before running tests, AI analyzes:
+
 - Code complexity of changes
 - Historical failure patterns
 - Files modified (risky vs safe)
@@ -123,6 +130,7 @@ Before running tests, AI analyzes:
 ### 2. **Intelligent Test Selection**
 
 AI analyzes your Git changes and:
+
 1. **Detects file types:** PHP code vs docs vs configs
 2. **Maps files to tests:** UserController.php → UserTest
 3. **Scores by impact:** Critical changes get more tests
@@ -130,16 +138,17 @@ AI analyzes your Git changes and:
 
 **Example Scenarios:**
 
-| Change | Traditional | AI-Powered | Time Saved |
-|--------|-------------|------------|------------|
-| Update README.md | 36 tests (30s) | 1 smoke test (2s) | **93% faster** |
-| Modify UserController | 36 tests (30s) | 9 user tests (7s) | **77% faster** |
-| Update User model | 36 tests (30s) | 12 tests (10s) | **67% faster** |
-| Major refactor | 36 tests (30s) | 36 tests (30s) | **Safety first!** |
+| Change                | Traditional    | AI-Powered        | Time Saved        |
+| --------------------- | -------------- | ----------------- | ----------------- |
+| Update README.md      | 36 tests (30s) | 1 smoke test (2s) | **93% faster**    |
+| Modify UserController | 36 tests (30s) | 9 user tests (7s) | **77% faster**    |
+| Update User model     | 36 tests (30s) | 12 tests (10s)    | **67% faster**    |
+| Major refactor        | 36 tests (30s) | 36 tests (30s)    | **Safety first!** |
 
 ### 3. **Smart Fallbacks**
 
 AI isn't perfect, so we have safety nets:
+
 - **Critical tests** always run for risky changes (auth, payments)
 - **Nightly full suite** catches anything AI missed
 - **Confidence thresholds** prevent risky test skipping
@@ -178,16 +187,19 @@ SeesionDemo/
 ## 🎯 Use Cases
 
 ### 1. **Rapid Development Teams**
+
 - Push 20+ times per day
 - Need instant feedback
 - CI/CD costs adding up
 
 ### 2. **Large Test Suites**
+
 - 500+ tests taking 15+ minutes
 - Slow feedback loop hurting productivity
 - Developers context-switching while waiting
 
 ### 3. **Cost-Conscious Organizations**
+
 - CI/CD budget constraints
 - Want to optimize without sacrificing quality
 - ROI-focused approach
@@ -196,13 +208,13 @@ SeesionDemo/
 
 ## 📚 Documentation
 
-| Document | Description |
-|----------|-------------|
-| [30-Minute Demo Guide](docs/30_MINUTE_DEMO_GUIDE.md) | Complete presentation script |
-| [AI Test Selection](docs/AI_TEST_SELECTION.md) | How intelligent selection works |
-| [Failure Prediction](docs/FAILURE_PREDICTION.md) | ML model explanation |
-| [Setup Guide](docs/CI_CD_SETUP_GUIDE.md) | Deploy to your own repo |
-| [Complete Explanation](docs/COMPLETE_EXPLANATION.md) | Beginner-friendly overview |
+| Document                                             | Description                     |
+| ---------------------------------------------------- | ------------------------------- |
+| [30-Minute Demo Guide](docs/30_MINUTE_DEMO_GUIDE.md) | Complete presentation script    |
+| [AI Test Selection](docs/AI_TEST_SELECTION.md)       | How intelligent selection works |
+| [Failure Prediction](docs/FAILURE_PREDICTION.md)     | ML model explanation            |
+| [Setup Guide](docs/CI_CD_SETUP_GUIDE.md)             | Deploy to your own repo         |
+| [Complete Explanation](docs/COMPLETE_EXPLANATION.md) | Beginner-friendly overview      |
 
 ---
 
@@ -219,6 +231,7 @@ SeesionDemo/
 ## 🤝 Contributing
 
 This is a demo project for presentations. Feel free to:
+
 - Fork it for your own demos
 - Adapt it to other languages (Python, Node.js, etc.)
 - Submit improvements via PR
@@ -233,7 +246,7 @@ MIT License - Use freely for demos, education, and production
 
 ## 🎤 Present This
 
-Want to use this for your own presentation? 
+Want to use this for your own presentation?
 
 1. **Fork this repo**
 2. **Follow the [30-Minute Demo Guide](docs/30_MINUTE_DEMO_GUIDE.md)**
@@ -248,26 +261,27 @@ Open an issue or check the [FAQ in the demo guide](docs/30_MINUTE_DEMO_GUIDE.md#
 ---
 
 **Built with ❤️ to show how AI makes developers' lives better**
-│   └── Console/Commands/
-│       ├── AnalyzeTestsCommand.php
-│       └── PredictFailureCommand.php
+│ └── Console/Commands/
+│ ├── AnalyzeTestsCommand.php
+│ └── PredictFailureCommand.php
 ├── config/
-│   └── ai-pipeline.php
+│ └── ai-pipeline.php
 ├── .github/
-│   └── workflows/
-│       └── ai-pipeline.yml
+│ └── workflows/
+│ └── ai-pipeline.yml
 ├── tests/
-│   ├── Feature/
-│   └── Unit/
+│ ├── Feature/
+│ └── Unit/
 ├── storage/
-│   └── ai/
-│       ├── models/
-│       └── training-data/
+│ └── ai/
+│ ├── models/
+│ └── training-data/
 └── docs/
-    ├── DEMO_SCRIPT.md
-    ├── AI_TEST_SELECTION.md
-    └── FAILURE_PREDICTION.md
-```
+├── DEMO_SCRIPT.md
+├── AI_TEST_SELECTION.md
+└── FAILURE_PREDICTION.md
+
+````
 
 ## 🔧 Configuration
 
@@ -284,7 +298,7 @@ return [
         'model_path' => storage_path('ai/models/failure_predictor.pkl'),
     ],
 ];
-```
+````
 
 ## 🤖 How It Works
 
